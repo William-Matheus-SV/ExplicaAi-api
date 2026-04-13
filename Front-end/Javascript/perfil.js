@@ -63,7 +63,7 @@ function renderizar() {
     (isAlunoLogado && usuario.papel === "tutor") ||
     (isTutorLogado && usuario.papel === "aluno");
 
-  // AVALIAÇÃO DO TUTOR (canto superior direito)
+  // AVALIAÇÃO DO TUTOR
   let avaliacaoTopoHtml = "";
   if (usuario.papel === "tutor") {
     const media = getMediaTutor(usuario.matricula);
@@ -86,7 +86,7 @@ function renderizar() {
     }
   }
 
-  // CONTEÚDO PRINCIPAL DO PERFIL
+  // CONTEÚDO PRINCIPAL
   let htmlContent = `
         <div style="position: relative;">
             ${avaliacaoTopoHtml}
@@ -104,12 +104,12 @@ function renderizar() {
         <p><i class="bi bi-chat-text"></i> <strong>Bio:</strong><br>${usuario.bio || "Sem descrição"}</p>
     `;
 
-  // SE FOR TUTOR E QUEM ESTÁ VENDO É ALUNO -> MOSTRAR HORÁRIOS + SELETOR
+  // TUTOR SENDO VISTO POR ALUNO
   if (usuario.papel === "tutor" && isAlunoLogado) {
-    // Seletor de matéria
     const materiasEmComum = usuarioLogado.materias.filter((m) =>
       usuario.materias.includes(m),
     );
+
     if (materiasEmComum.length > 0) {
       htmlContent += `
                 <div class="mb-3 mt-3">
@@ -119,17 +119,8 @@ function renderizar() {
                     </select>
                 </div>
             `;
-    } else {
-      // Se não houver matérias em comum, mostra mensagem
-      htmlContent += `
-                <div class="alert alert-warning mt-3">
-                    <i class="bi bi-exclamation-triangle"></i> 
-                    Você não tem matérias em comum com este tutor.
-                </div>
-            `;
     }
 
-    // Horários disponíveis
     const horariosDisponiveisFiltrados = horariosDisponiveis.filter(
       (h) => h.disponivel,
     );
@@ -153,25 +144,38 @@ function renderizar() {
     }
   }
 
-  // BOTÃO DE AÇÃO (match direto)
+  // MATCH DIRETO
   if (podeFazerMatch && !(usuario.papel === "tutor" && isAlunoLogado)) {
     const textoBotao = isAlunoLogado ? "Solicitar Tutoria" : "Oferecer Tutoria";
     htmlContent += `<button id="btnMatchDireto" class="btn-acao"><i class="bi bi-chat-dots"></i> ${textoBotao}</button>`;
   }
 
-  // BOTÃO VOLTAR
   htmlContent += `<button class="btn-voltar w-100 mt-3" onclick="window.location.href='busca.html'">Voltar para Busca</button>`;
 
-  // INSERIR HTML NA PÁGINA
   document.getElementById("perfil").innerHTML = htmlContent;
 
-  // CONFIGURAR EVENTOS DOS BOTÕES DE HORÁRIO
+  // ============================================
+  // EVENTO DOS BOTÕES DE HORÁRIO (CORRIGIDO)
+  // ============================================
   if (
     usuario.papel === "tutor" &&
     isAlunoLogado &&
     horariosDisponiveis.filter((h) => h.disponivel).length > 0
   ) {
     let horarioSelecionado = null;
+    let materiaSelecionadaGlobal = "";
+
+    // PEGAR A MATÉRIA SELECIONADA ANTES
+    const selectMateria = document.getElementById("selectMateria");
+    if (selectMateria) {
+      materiaSelecionadaGlobal = selectMateria.value;
+      // Atualizar quando mudar
+      selectMateria.addEventListener("change", (e) => {
+        materiaSelecionadaGlobal = e.target.value;
+        console.log("📚 Matéria alterada para:", materiaSelecionadaGlobal);
+      });
+    }
+
     document.querySelectorAll(".btn-selecionar").forEach((btn) => {
       btn.onclick = () => {
         document
@@ -185,44 +189,17 @@ function renderizar() {
         const btnConfirmar = document.getElementById("btnConfirmarMatch");
         btnConfirmar.style.display = "block";
 
-        // ============================================
-        // CORREÇÃO: Pegar a matéria selecionada NO MOMENTO DO CLIQUE
-        // ============================================
-
         btnConfirmar.onclick = () => {
+          // PEGAR A MATÉRIA DO DROPDOWN
           const selectMateria = document.getElementById("selectMateria");
-          let materiaSelecionada = "";
+          let materiaSelecionada = selectMateria ? selectMateria.value : "";
 
-          // PRIORIDADE 1: Valor do dropdown
-          if (
-            selectMateria &&
-            selectMateria.value &&
-            selectMateria.value !== ""
-          ) {
-            materiaSelecionada = selectMateria.value;
-          }
-          // PRIORIDADE 2: Matérias em comum entre aluno e tutor
-          else {
-            const materiasEmComum = usuarioLogado.materias.filter((m) =>
-              usuario.materias.includes(m),
-            );
-            if (materiasEmComum.length > 0) {
-              materiaSelecionada = materiasEmComum[0];
-            } else {
-              // PRIORIDADE 3: Fallback (nunca deveria acontecer)
-              materiaSelecionada = usuario.materias[0] || "Matéria geral";
-            }
-          }
-
-          console.log(
-            "✅ Matéria selecionada para o match:",
-            materiaSelecionada,
-          );
+          console.log("📚 Matéria escolhida:", materiaSelecionada); // Debug
 
           confirmarMatchComHorario(
             horarioSelecionado.dia,
             horarioSelecionado.horario,
-            materiaSelecionada,
+            materiaSelecionada // ← ADICIONAR O TERCEIRO PARÂMETRO
           );
         };
       };
@@ -240,6 +217,24 @@ function renderizar() {
 // 6. FUNÇÃO CONFIRMAR MATCH COM HORÁRIO
 // ============================================
 function confirmarMatchComHorario(dia, horario, materiaSelecionada) {
+  // Se a matéria não veio como parâmetro, tenta pegar do dropdown
+  if (!materiaSelecionada) {
+    const selectMateria = document.getElementById("selectMateria");
+    if (selectMateria && selectMateria.value) {
+      materiaSelecionada = selectMateria.value;
+    } else {
+      // Fallback: pegar matérias em comum
+      const materiasEmComum = usuarioLogado.materias.filter((m) =>
+        usuario.materias.includes(m),
+      );
+      materiaSelecionada =
+        materiasEmComum[0] || usuario.materias[0] || "Matéria geral";
+    }
+  }
+
+  console.log("✅ Matéria confirmada:", materiaSelecionada); // Debug
+
+  // Resto do código...
   const index = horariosDisponiveis.findIndex(
     (h) => h.dia === dia && h.horario === horario,
   );
