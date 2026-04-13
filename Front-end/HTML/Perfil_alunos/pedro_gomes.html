@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExplicaAí - Pedro Gomes</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../CSS/perfil.css" />
+  </head>
+  <body>
+    <div class="profile-container">
+      <div class="col-left">
+        <div class="profile-img">PG</div>
+        <h1 class="name">Pedro Gomes</h1>
+        <p class="info-text"><i class="bi bi-calendar"></i> 15 anos</p>
+        <p class="info-text">
+          <i class="bi bi-person-badge"></i> Matrícula: 2026210
+        </p>
+        <p class="info-text"><i class="bi bi-mortarboard"></i> Aluna</p>
+        <p class="bio">
+          Gosto muito da escola, mas as matérias que envolvem muitas fórmulas me
+          deixam confuso. Gosto de jogar basquete e videogame.
+        </p>
+        <div class="btn-group-vertical w-100 gap-2">
+          <a href="../../busca.html" class="btn-buscar">
+            <i class="bi bi-search"></i> Buscar Tutores
+          </a>
+          <a href="../../busca.html" class="btn-voltar-busca">
+            <i class="bi bi-arrow-left"></i> Voltar para a busca
+          </a>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <div class="top-right-header">
+          <div>
+            <h2 class="section-title">Preciso de ajuda em</h2>
+            <span class="subject-badge">Física</span>
+            <span class="subject-badge">Química</span>
+          </div>
+          <a
+            href="#"
+            class="btn-action btn-match"
+            data-matricula="2026210"
+            data-nome="Pedro Gomes"
+            data-papel="aluno"
+          >
+            <i class="bi bi-chat-dots"></i> Oferecer Tutoria
+          </a>
+        </div>
+
+        <h2 class="section-title">Foco ou Objetivo Atual</h2>
+        <div class="goal-box">
+          <i
+            class="bi bi-trophy-fill"
+            style="color: #4353ff; margin-right: 8px"
+          ></i>
+          Preciso de um tutor paciente para me explicar cinemática e as ligações
+          químicas do zero. Minha prova é mês que vem e quero recuperar meu
+          desempenho.
+        </div>
+
+        <div class="info-box mt-4">
+          <h3 class="section-title">Disponibilidade</h3>
+          <div class="goal-box">
+            <i class="bi bi-clock"></i> Segundas, terças e quartas das 13h às
+            15h
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../../Javascript/storage.js"></script>
+    <script>
+      document.querySelectorAll(".btn-match").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const usuarioLogado = getUsuarioLogado();
+
+          if (!usuarioLogado) {
+            alert("Faça login primeiro para oferecer tutoria!");
+            window.location.href = "../../login.html";
+            return;
+          }
+
+          if (usuarioLogado.papel !== "tutor") {
+            alert("Apenas tutores podem oferecer tutoria!");
+            return;
+          }
+
+          const alunoMatricula = this.getAttribute("data-matricula");
+          const alunoNome = this.getAttribute("data-nome");
+
+          const match = {
+            alunoMatricula: alunoMatricula,
+            tutorMatricula: usuarioLogado.matricula,
+            status: "pendente",
+            dataMatch: new Date().toISOString(),
+          };
+
+          salvarMatch(match);
+          alert(
+            `✅ Match realizado com ${alunoNome}! As horas complementares serão registradas.`,
+          );
+          window.location.href = `../../tutoria_marcada.html?aluno=${alunoMatricula}&tutor=${usuarioLogado.matricula}`;
+        });
+      });
+    </script>
+  </body>
+</html>

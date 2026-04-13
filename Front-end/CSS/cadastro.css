@@ -1,0 +1,68 @@
+/* Reaproveitando o fundo e fontes do anterior */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f4f7ff;
+}
+
+.brand-title {
+  color: #4353ff; /* Azul vibrante da imagem */
+  font-weight: 800;
+}
+
+.selection-card {
+  border-radius: 20px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.selection-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Círculos dos Ícones com Degradê */
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 15px rgba(67, 83, 255, 0.2);
+}
+
+.bg-gradient-purple {
+  background: linear-gradient(135deg, #6366f1 0%, #4353ff 100%);
+}
+
+.bg-gradient-blue {
+  background: linear-gradient(135deg, #4353ff 0%, #3b82f6 100%);
+}
+
+/* Estilo dos marcadores da lista */
+.dot {
+  height: 6px;
+  width: 6px;
+  background-color: #4353ff;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.text-primary-custom {
+  color: #4353ff;
+}
+
+.btn-primary-custom {
+  background: linear-gradient(90deg, #5842f4 0%, #3563f1 100%);
+  border: none;
+  color: white;
+  border-radius: 10px;
+}
+
+.btn-primary-custom:hover {
+  opacity: 0.9;
+  color: white;
+}

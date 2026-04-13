@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExplicaAí - João Silva</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../CSS/perfil.css" />
+  </head>
+  <body>
+    <div class="profile-container">
+      <div class="col-left">
+        <div class="profile-img">JS</div>
+        <h1 class="name">João Silva</h1>
+        <p class="info-text"><i class="bi bi-calendar"></i> 17 anos</p>
+        <p class="info-text">
+          <i class="bi bi-person-badge"></i> Matrícula: 2026009
+        </p>
+        <p class="info-text"><i class="bi bi-chat-dots"></i> Tutor</p>
+        <p class="bio">
+          Olá! Sou estudante apaixonado por ciências exatas e adoro compartilhar
+          conhecimento. Tenho experiência em tutoria há 2 anos, ajudando colegas
+          a melhorarem suas notas.
+        </p>
+        <a href="../../busca.html" class="btn-voltar-busca">
+          <i class="bi bi-arrow-left"></i> Voltar para a busca
+        </a>
+      </div>
+
+      <div class="col-right">
+        <div class="top-right-header">
+          <div>
+            <h2 class="section-title">Matérias que ensino</h2>
+            <span class="subject-badge">Matemática</span>
+            <span class="subject-badge">Física</span>
+          </div>
+        </div>
+
+        <h2 class="section-title">Horários Disponíveis</h2>
+        <div id="horariosList" class="horarios-container">
+          <!-- Horários serão carregados aqui -->
+          <div class="text-muted text-center py-3">Carregando horários...</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../../Javascript/storage.js"></script>
+    <script>
+      const tutorMatricula = "9999999";
+      const tutorNome = "João Silva";
+
+      // Horários disponíveis do tutor
+      let horariosDisponiveis = [
+        { dia: "Segunda-feira", horario: "14:00 - 16:00", disponivel: true },
+        { dia: "Terça-feira", horario: "10:00 - 12:00", disponivel: true },
+        { dia: "Quarta-feira", horario: "14:00 - 16:00", disponivel: true },
+        { dia: "Quinta-feira", horario: "16:00 - 18:00", disponivel: true },
+      ];
+
+      // Carregar horários salvos no localStorage
+      const horariosSalvos = localStorage.getItem(`horarios_${tutorMatricula}`);
+      if (horariosSalvos) {
+        horariosDisponiveis = JSON.parse(horariosSalvos);
+      }
+
+      function renderizarHorarios() {
+        const container = document.getElementById("horariosList");
+        const usuarioLogado = getUsuarioLogado();
+        const isAluno = usuarioLogado && usuarioLogado.papel === "aluno";
+
+        if (horariosDisponiveis.length === 0) {
+          container.innerHTML =
+            '<div class="goal-box text-center">📅 Nenhum horário disponível no momento</div>';
+          return;
+        }
+
+        container.innerHTML = horariosDisponiveis
+          .map(
+            (horario) => `
+            <div class="schedule-item ${!horario.disponivel ? "indisponivel" : ""}">
+                <span><i class="bi bi-calendar-week"></i> ${horario.dia}</span>
+                <span class="schedule-time">${horario.horario}</span>
+                ${
+                  isAluno && horario.disponivel
+                    ? `<button class="btn-schedule-match" data-dia="${horario.dia}" data-horario="${horario.horario}">
+                        <i class="bi bi-check-circle"></i> Selecionar
+                     </button>`
+                    : !horario.disponivel
+                      ? '<span class="badge-indisponivel">Indisponível</span>'
+                      : ""
+                }
+            </div>
+        `,
+          )
+          .join("");
+
+        // Adicionar eventos aos botões
+        if (isAluno) {
+          document.querySelectorAll(".btn-schedule-match").forEach((btn) => {
+            btn.addEventListener("click", function () {
+              const dia = this.getAttribute("data-dia");
+              const horario = this.getAttribute("data-horario");
+              solicitarMatch(dia, horario);
+            });
+          });
+        }
+      }
+
+      function solicitarMatch(dia, horario) {
+        const usuarioLogado = getUsuarioLogado();
+
+        if (!usuarioLogado) {
+          alert("Faça login primeiro para solicitar tutoria!");
+          window.location.href = "../../login.html";
+          return;
+        }
+
+        if (usuarioLogado.papel !== "aluno") {
+          alert("Apenas alunos podem solicitar tutoria!");
+          return;
+        }
+
+        // Marcar horário como indisponível
+        const horarioIndex = horariosDisponiveis.findIndex(
+          (h) => h.dia === dia && h.horario === horario,
+        );
+        if (horarioIndex !== -1) {
+          horariosDisponiveis[horarioIndex].disponivel = false;
+          localStorage.setItem(
+            `horarios_${tutorMatricula}`,
+            JSON.stringify(horariosDisponiveis),
+          );
+        }
+
+        // Salvar match
+        const match = {
+          alunoMatricula: usuarioLogado.matricula,
+          tutorMatricula: tutorMatricula,
+          tutorNome: tutorNome,
+          alunoNome: usuarioLogado.nome,
+          dia: dia,
+          horario: horario,
+          status: "confirmado",
+          dataMatch: new Date().toISOString(),
+        };
+
+        salvarMatch(match);
+
+        // Redirecionar para tela de match realizado
+        window.location.href = `../../tutoria_marcada.html?aluno=${usuarioLogado.matricula}&tutor=${tutorMatricula}&dia=${encodeURIComponent(dia)}&horario=${encodeURIComponent(horario)}`;
+      }
+
+      renderizarHorarios();
+    </script>
+  </body>
+</html>

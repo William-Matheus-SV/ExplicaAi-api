@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExplicaAí - Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="../CSS/dashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard-card">
+      <div id="profileImg" class="profile-img">--</div>
+      <h2 id="welcomeMsg" class="text-center mb-4">Carregando...</h2>
+
+      <div class="info-row">
+        <i class="bi bi-person-badge"></i> <strong>Matrícula:</strong>
+        <span id="matricula"></span>
+      </div>
+      <div class="info-row">
+        <i class="bi bi-calendar"></i> <strong>Idade:</strong>
+        <span id="idade"></span> anos
+      </div>
+      <div class="info-row">
+        <i class="bi bi-book"></i> <strong>Matérias:</strong>
+        <div id="materias" class="mt-2"></div>
+      </div>
+      <div class="info-row">
+        <i class="bi bi-chat-text"></i> <strong>Bio:</strong>
+        <span id="bio"></span>
+      </div>
+
+      <!-- Seção de Meus Matches -->
+      <div class="mt-4 pt-3 border-top">
+        <h3 class="h6 fw-bold mb-3">
+          <i class="bi bi-heart-fill" style="color: #f472b6"></i> Meus Matches
+        </h3>
+        <div id="meusMatches">
+          <div class="text-muted text-center py-3">Carregando...</div>
+        </div>
+      </div>
+
+      <button id="btnBuscar" class="btn-buscar">
+        <i class="bi bi-search"></i> Buscar
+      </button>
+      <button id="btnSair" class="btn-sair">
+        <i class="bi bi-box-arrow-right"></i> Sair
+      </button>
+    </div>
+
+    <script src="../Javascript/storage.js"></script>
+    <script>
+      const usuario = getUsuarioLogado();
+      if (!usuario) window.location.href = "login.html";
+
+      function getIniciais(nome) {
+        return nome
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .substring(0, 2);
+      }
+
+      document.getElementById("profileImg").innerText = getIniciais(
+        usuario.nome,
+      );
+      document.getElementById("welcomeMsg").innerHTML =
+        `Olá, ${usuario.nome}! ${usuario.papel === "aluno" ? "Encontre seu tutor ideal" : "Conecte-se com alunos"}`;
+      document.getElementById("matricula").innerText = usuario.matricula;
+      document.getElementById("idade").innerText = usuario.idade;
+      document.getElementById("bio").innerText = usuario.bio || "Sem descrição";
+
+      const materiasDiv = document.getElementById("materias");
+      usuario.materias.forEach((m) => {
+        materiasDiv.innerHTML += `<span class="badge-subject">${m}</span>`;
+      });
+
+      // Carregar e mostrar os matches do usuário
+      function carregarMatches() {
+        const matches = getMatches();
+        const usuario = getUsuarioLogado();
+
+        // Filtrar matches do usuário logado
+        const meusMatches = matches.filter(
+          (m) =>
+            (usuario.papel === "aluno" &&
+              m.alunoMatricula === usuario.matricula) ||
+            (usuario.papel === "tutor" &&
+              m.tutorMatricula === usuario.matricula),
+        );
+
+        const container = document.getElementById("meusMatches");
+        if (!container) return;
+
+        if (meusMatches.length === 0) {
+          container.innerHTML =
+            '<div class="text-muted text-center py-3">Nenhum match realizado ainda</div>';
+          return;
+        }
+
+        let html = "";
+        meusMatches.forEach((match) => {
+          const outraPessoa =
+            usuario.papel === "aluno" ? match.tutorNome : match.alunoNome;
+          const statusMatch = match.status;
+
+          // Verificar se já avaliou (apenas para alunos)
+          let jaAvaliouMatch = false;
+          if (usuario.papel === "aluno") {
+            const avaliacoes = getAvaliacoes();
+            jaAvaliouMatch = avaliacoes.some((a) => a.matchId === match.id);
+          }
+
+          html += `
+            <div style="background: #f8fafc; border-radius: 12px; padding: 15px; margin-bottom: 10px;">
+                <div><strong>${outraPessoa}</strong></div>
+                <div><small class="text-muted">Status: ${statusMatch === "confirmado" ? "✅ Confirmado" : "⏳ Pendente"}</small></div>
+                ${match.dia ? `<div><small class="text-muted">📅 ${match.dia} • ${match.horario}</small></div>` : ""}
+                
+                ${
+                  usuario.papel === "aluno" && statusMatch === "confirmado"
+                    ? `
+                    ${
+                      !jaAvaliouMatch
+                        ? `<a href="avaliacao.html?matchId=${match.id}&tutor=${match.tutorMatricula}&aluno=${usuario.matricula}" 
+                          style="display: inline-block; margin-top: 10px; background: #fbbf24; color: #1e293b; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.8rem;">
+                          ⭐ Avaliar Tutor
+                        </a>`
+                        : `<span style="display: inline-block; margin-top: 10px; font-size: 0.8rem; color: #10b981;">✅ Já avaliado</span>`
+                    }
+                `
+                    : ""
+                }
+            </div>
+        `;
+        });
+
+        container.innerHTML = html;
+      }
+
+      // Chamar a função ao carregar a página
+      carregarMatches();
+
+      document.getElementById("btnBuscar").onclick = () =>
+        (window.location.href = "busca.html");
+      document.getElementById("btnSair").onclick = () => {
+        fazerLogout();
+        window.location.href = "login.html";
+      };
+    </script>
+  </body>
+</html>

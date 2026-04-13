@@ -1,0 +1,224 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  max-width: 450px;
+  width: 100%;
+  border-radius: 24px;
+  background: white;
+  padding: 40px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.brand-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.custom-input {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  transition: all 0.3s;
+}
+
+.custom-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
+.btn-login {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-weight: 600;
+  transition: transform 0.2s;
+  color: white;
+  width: 100%;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.register-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.register-link:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+.alert-error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 12px;
+  color: #dc2626;
+  font-size: 14px;
+  display: none;
+}
+
+.input-group-text {
+  border: 2px solid #e0e0e0;
+  border-right: none;
+  border-radius: 12px 0 0 12px;
+  background: transparent;
+}
+
+.input-group .form-control {
+  border-left: none;
+}
+
+.toggle-password {
+  cursor: pointer;
+  border: 2px solid #e0e0e0;
+  border-left: none;
+  border-radius: 0 12px 12px 0;
+  background: transparent;
+}
+
+.toggle-password:hover {
+  background: #f5f5f5;
+}
+
+.text-muted-small {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-100 {
+  width: 100%;
+}
+/* Estilos para o alerta de erro */
+.alert-error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 12px;
+  color: #dc2626;
+  font-size: 14px;
+  display: none;
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Animação de tremor para o erro */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Estilo para o campo senha com erro */
+.custom-input.error {
+  border-color: #dc2626;
+  animation: shake 0.3s ease-in-out;
+}
+/* Estilos específicos para o campo senha do login */
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  cursor: pointer;
+  border: 2px solid #e0e0e0;
+  border-left: none;
+  border-radius: 0 12px 12px 0;
+  background: transparent;
+  transition: all 0.3s;
+}
+
+.toggle-password:hover {
+  background: #f5f5f5;
+}
+
+/* Alerta de erro animado */
+.alert-error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 12px;
+  color: #dc2626;
+  font-size: 14px;
+  display: none;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Campo com erro */
+.custom-input.error {
+  border-color: #dc2626;
+  animation: shake 0.3s ease-in-out;
+}

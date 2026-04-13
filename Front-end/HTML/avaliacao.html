@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExplicaAí - Avaliar Tutor</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .avaliacao-card {
+        background: white;
+        border-radius: 32px;
+        padding: 40px;
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        animation: fadeInUp 0.5s ease;
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .tutor-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 20px;
+        margin: 20px 0;
+      }
+      .tutor-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+      .stars {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin: 25px 0;
+      }
+      .star {
+        font-size: 48px;
+        cursor: pointer;
+        color: #cbd5e1;
+        transition: all 0.2s;
+      }
+      .star:hover,
+      .star.active {
+        color: #fbbf24;
+        transform: scale(1.1);
+      }
+      textarea {
+        width: 100%;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 12px;
+        resize: none;
+        font-family: inherit;
+      }
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+      .btn-enviar {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 16px;
+        font-weight: 600;
+        width: 100%;
+        margin-top: 20px;
+      }
+      .btn-voltar {
+        background: transparent;
+        border: 2px solid #e2e8f0;
+        padding: 10px;
+        border-radius: 16px;
+        width: 100%;
+        margin-top: 10px;
+        text-decoration: none;
+        display: inline-block;
+        color: #475569;
+      }
+      .nota-display {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="avaliacao-card">
+      <i class="bi bi-star-fill" style="font-size: 48px; color: #fbbf24"></i>
+      <h2 class="mt-3">Avaliar Tutor</h2>
+      <p class="text-muted">Sua opinião é muito importante!</p>
+
+      <div id="tutorInfo" class="tutor-info">
+        <!-- Tutor info será preenchido -->
+      </div>
+
+      <div class="stars" id="stars">
+        <i class="bi bi-star-fill star" data-nota="1"></i>
+        <i class="bi bi-star-fill star" data-nota="2"></i>
+        <i class="bi bi-star-fill star" data-nota="3"></i>
+        <i class="bi bi-star-fill star" data-nota="4"></i>
+        <i class="bi bi-star-fill star" data-nota="5"></i>
+      </div>
+
+      <div class="nota-display" id="notaDisplay">
+        Clique nas estrelas para avaliar
+      </div>
+
+      <textarea
+        id="comentario"
+        rows="3"
+        placeholder="Deixe um comentário sobre a tutoria... (opcional)"
+      ></textarea>
+
+      <button class="btn-enviar" id="btnEnviar">
+        <i class="bi bi-check-circle"></i> Enviar Avaliação
+      </button>
+
+      <a href="dashboard.html" class="btn-voltar">
+        <i class="bi bi-arrow-left"></i> Voltar
+      </a>
+    </div>
+
+    <script src="../Javascript/storage.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const matchId = urlParams.get("matchId");
+      const tutorMatricula = urlParams.get("tutor");
+      const alunoMatricula = urlParams.get("aluno");
+
+      let notaSelecionada = 0;
+      const usuarioLogado = getUsuarioLogado();
+
+      // Verificar se está logado
+      if (!usuarioLogado) window.location.href = "login.html";
+
+      // Buscar tutor
+      const tutor = getUsuarioByMatricula(tutorMatricula);
+      if (!tutor) window.location.href = "dashboard.html";
+
+      function getIniciais(nome) {
+        return nome
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .substring(0, 2);
+      }
+
+      // Mostrar info do tutor
+      document.getElementById("tutorInfo").innerHTML = `
+        <div class="tutor-avatar">${getIniciais(tutor.nome)}</div>
+        <div>
+            <h5 class="mb-0">${tutor.nome}</h5>
+            <small class="text-muted">Tutor de ${tutor.materias.join(", ")}</small>
+        </div>
+    `;
+
+      // Sistema de estrelas
+      const stars = document.querySelectorAll(".star");
+      stars.forEach((star) => {
+        star.addEventListener("click", function () {
+          notaSelecionada = parseInt(this.getAttribute("data-nota"));
+
+          // Atualizar cores das estrelas
+          stars.forEach((s, index) => {
+            if (index < notaSelecionada) {
+              s.style.color = "#fbbf24";
+            } else {
+              s.style.color = "#cbd5e1";
+            }
+          });
+
+          document.getElementById("notaDisplay").innerHTML =
+            `Nota: ${notaSelecionada} de 5`;
+        });
+      });
+
+      // Enviar avaliação
+      document
+        .getElementById("btnEnviar")
+        .addEventListener("click", function () {
+          if (notaSelecionada === 0) {
+            alert("Selecione uma nota antes de enviar!");
+            return;
+          }
+
+          const comentario = document.getElementById("comentario").value;
+
+          const avaliacao = {
+            matchId: matchId,
+            alunoMatricula: alunoMatricula,
+            alunoNome: usuarioLogado.nome,
+            tutorMatricula: tutorMatricula,
+            tutorNome: tutor.nome,
+            nota: notaSelecionada,
+            comentario: comentario,
+            data: new Date().toISOString(),
+          };
+
+          salvarAvaliacao(avaliacao);
+
+          // Atualizar o match como avaliado
+          const matches = getMatches();
+          const matchIndex = matches.findIndex((m) => m.id === matchId);
+          if (matchIndex !== -1) {
+            matches[matchIndex].avaliado = true;
+            localStorage.setItem(STORAGE_KEYS.MATCHES, JSON.stringify(matches));
+          }
+
+          alert(
+            `✅ Avaliação enviada! Nota: ${notaSelecionada}/5 para ${tutor.nome}`,
+          );
+          window.location.href = "dashboard.html";
+        });
+    </script>
+  </body>
+</html>

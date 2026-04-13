@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExplicaAí - Cadastro Aluno</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="../CSS/cadastroAluno.css" />
+  </head>
+  <body class="bg-light">
+    <header class="header-banner p-4 text-white">
+      <div class="container">
+        <a href="cadastro.html" class="btn-voltar">
+          <i class="bi bi-arrow-left"></i> Voltar
+        </a>
+        <h1 class="fw-bold h3">Cadastro de Aluno</h1>
+        <p class="mb-0 opacity-75">
+          Preencha os dados abaixo para registrar um novo aluno
+        </p>
+      </div>
+    </header>
+
+    <main class="container my-4">
+      <form id="formCadastroAluno">
+        <section class="mb-5">
+          <h2 class="section-title">Informações Pessoais</h2>
+          <div class="row g-3 mt-1">
+            <div class="col-md-12">
+              <label class="form-label small fw-bold">Nome Completo *</label>
+              <input
+                type="text"
+                id="nome"
+                class="form-control custom-input"
+                placeholder="Digite o nome completo do aluno"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Idade *</label>
+              <input
+                type="number"
+                id="idade"
+                class="form-control custom-input"
+                placeholder="Digite a idade"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Matrícula *</label>
+              <input
+                type="text"
+                id="matricula"
+                class="form-control custom-input"
+                placeholder="Digite a matrícula"
+                required
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title">Senha</h2>
+          <div class="row g-3 mt-1">
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Senha *</label>
+              <input
+                type="password"
+                id="senha"
+                class="form-control custom-input"
+                placeholder="Crie uma senha"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Confirmar Senha *</label>
+              <input
+                type="password"
+                id="confirmarSenha"
+                class="form-control custom-input"
+                placeholder="Confirme sua senha"
+                required
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title">Bio / Descrição</h2>
+          <div class="mt-1">
+            <textarea
+              id="bio"
+              class="form-control custom-input"
+              rows="3"
+              placeholder="Fale um pouco sobre você..."
+            ></textarea>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title">Matérias com Dificuldade</h2>
+          <p class="text-muted small">
+            Selecione as matérias em que o aluno possui dificuldade
+          </p>
+          <div class="row g-2 mt-1" id="materiasList"></div>
+        </section>
+
+        <div class="d-flex justify-content-end gap-3 mb-5">
+          <button type="reset" class="btn btn-outline-secondary px-4 rounded-3">
+            Limpar
+          </button>
+          <button type="submit" class="btn btn-primary-custom px-4 rounded-3">
+            Cadastrar Aluno
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <script src="../Javascript/storage.js"></script>
+    <script>
+      // Matérias
+      const materias = [
+        "Matemática",
+        "Português",
+        "História",
+        "Geografia",
+        "Ciências",
+        "Física",
+        "Química",
+        "Biologia",
+        "Inglês",
+        "Educação Física",
+        "Artes",
+        "Filosofia",
+      ];
+
+      const materiasList = document.getElementById("materiasList");
+      materias.forEach((materia) => {
+        materiasList.innerHTML += `
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="materia-card shadow-sm">
+                    <input class="form-check-input me-2" type="checkbox" value="${materia}" id="mat_${materia}">
+                    <label class="form-check-label" for="mat_${materia}" style="cursor: pointer;">${materia}</label>
+                </div>
+            </div>
+        `;
+      });
+
+      // Salvar aluno
+      document
+        .getElementById("formCadastroAluno")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const materiasSelecionadas = [];
+          document
+            .querySelectorAll('#materiasList input[type="checkbox"]:checked')
+            .forEach((cb) => {
+              materiasSelecionadas.push(cb.value);
+            });
+
+          if (materiasSelecionadas.length === 0) {
+            alert("Selecione pelo menos uma matéria!");
+            return;
+          }
+
+          const senha = document.getElementById("senha").value;
+          const confirmarSenha =
+            document.getElementById("confirmarSenha").value;
+
+          if (senha !== confirmarSenha) {
+            alert("As senhas não coincidem!");
+            return;
+          }
+
+          if (senha.length < 4) {
+            alert("A senha deve ter pelo menos 4 caracteres!");
+            return;
+          }
+
+          const aluno = {
+            nome: document.getElementById("nome").value,
+            idade: parseInt(document.getElementById("idade").value),
+            matricula: document.getElementById("matricula").value,
+            bio: document.getElementById("bio").value,
+            papel: "aluno",
+            materias: materiasSelecionadas,
+            escola: "Escola Padrão",
+            senha: senha,
+          };
+
+          if (getUsuarioByMatricula(aluno.matricula)) {
+            alert("Matrícula já cadastrada!");
+            return;
+          }
+
+          salvarUsuario(aluno);
+          alert("Aluno cadastrado com sucesso!");
+          window.location.href = "login.html";
+        });
+    </script>
+  </body>
+</html>

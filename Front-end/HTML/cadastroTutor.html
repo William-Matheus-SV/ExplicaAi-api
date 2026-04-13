@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExplicaAí - Cadastro Tutor</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="../CSS/cadastroTutor.css" />
+  </head>
+  <body class="bg-light">
+    <header class="header-banner p-4 text-white">
+      <div class="container">
+        <!-- Botão Voltar - Topo à Direita -->
+        <a href="cadastro.html" class="btn-voltar">
+          <i class="bi bi-arrow-left"></i> Voltar
+        </a>
+        <h1 class="fw-bold h3">Cadastro de Tutor</h1>
+        <p class="mb-0 opacity-75">
+          Preencha os dados do tutor e selecione as matérias e horários
+          disponíveis
+        </p>
+      </div>
+    </header>
+
+    <main class="container my-4">
+      <form id="formCadastroTutor">
+        <section class="mb-5">
+          <h2 class="section-title">Informações Pessoais</h2>
+          <div class="row g-3 mt-1">
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Nome *</label>
+              <input
+                type="text"
+                id="nome"
+                class="form-control custom-input"
+                placeholder="Digite o nome completo"
+                required
+              />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Idade *</label>
+              <input
+                type="number"
+                id="idade"
+                class="form-control custom-input"
+                placeholder="Digite a idade"
+                required
+              />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Matrícula *</label>
+              <input
+                type="text"
+                id="matricula"
+                class="form-control custom-input"
+                placeholder="Digite a matrícula"
+                required
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title">Senha</h2>
+          <div class="row g-3 mt-1">
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Senha *</label>
+              <input
+                type="password"
+                id="senha"
+                class="form-control custom-input"
+                placeholder="Crie uma senha"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Confirmar Senha *</label>
+              <input
+                type="password"
+                id="confirmarSenha"
+                class="form-control custom-input"
+                placeholder="Confirme sua senha"
+                required
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title">Bio / Descrição</h2>
+          <div class="mt-1">
+            <textarea
+              id="bio"
+              class="form-control custom-input"
+              rows="3"
+              placeholder="Fale sobre sua experiência e didática..."
+              required
+            ></textarea>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title">Matérias Lecionadas</h2>
+          <div class="row g-2 mt-2" id="materiasList"></div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title">Agenda Semanal</h2>
+          <p class="text-muted small">
+            Selecione os horários que o tutor está disponível
+          </p>
+          <div
+            class="table-responsive mt-3 border rounded-4 overflow-hidden shadow-sm"
+          >
+            <table class="table table-bordered mb-0 text-center">
+              <thead class="table-primary-custom">
+                <tr>
+                  <th style="width: 100px"></th>
+                  <th>Segunda</th>
+                  <th>Terça</th>
+                  <th>Quarta</th>
+                  <th>Quinta</th>
+                  <th>Sexta</th>
+                </tr>
+              </thead>
+              <tbody id="agendaBody"></tbody>
+            </table>
+          </div>
+          <p class="text-muted small mt-2">
+            <span class="dot-indicator"></span> Clique nos horários para marcar
+            quando o tutor estará disponível
+          </p>
+        </section>
+
+        <div class="d-flex justify-content-end gap-3 mb-5">
+          <button type="reset" class="btn btn-outline-secondary px-4 rounded-3">
+            Limpar
+          </button>
+          <button type="submit" class="btn btn-primary-custom px-4 rounded-3">
+            Cadastrar Tutor
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <script src="../Javascript/storage.js"></script>
+
+    <script>
+      // Matérias
+      const materias = [
+        "Matemática",
+        "Português",
+        "Física",
+        "Química",
+        "Biologia",
+        "História",
+        "Geografia",
+        "Inglês",
+        "Filosofia",
+        "Sociologia",
+      ];
+      const materiasList = document.getElementById("materiasList");
+      materias.forEach((materia) => {
+        materiasList.innerHTML += `
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="materia-card shadow-sm">
+                <input class="form-check-input me-2" type="checkbox" value="${materia}" id="mat_${materia}">
+                <label class="form-check-label" for="mat_${materia}" style="cursor: pointer;">${materia}</label>
+            </div>
+        </div>
+        `;
+      });
+
+      // ============================================
+      // GERAR AGENDA COM HORÁRIOS ESPECÍFICOS
+      // ============================================
+      const agendaBody = document.getElementById("agendaBody");
+      const disponibilidade = {};
+
+      // Horários disponíveis
+      const horarios = [
+        "08:00 - 10:00",
+        "09:00 - 11:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "15:00 - 17:00",
+      ];
+
+      // Dias da semana
+      const dias = ["segunda", "terca", "quarta", "quinta", "sexta"];
+
+      // Criar linhas da tabela para cada horário
+      horarios.forEach((horario) => {
+        let row = agendaBody.insertRow();
+
+        // Coluna do horário
+        let horarioCell = row.insertCell(0);
+        horarioCell.innerHTML = `<span class="fw-bold text-muted bg-light small">${horario}</span>`;
+        horarioCell.style.backgroundColor = "#f8f9fa";
+
+        // Colunas para cada dia da semana
+        dias.forEach((dia) => {
+          let cell = row.insertCell();
+          cell.className = "agenda-cell";
+          cell.style.cursor = "pointer";
+          cell.style.backgroundColor = "#f8f9fa";
+          cell.style.transition = "all 0.2s";
+
+          // Ícone para mostrar disponível
+          cell.innerHTML =
+            '<i class="bi bi-plus-circle text-muted" style="font-size: 20px;"></i>';
+
+          const chave = `${dia}_${horario}`;
+
+          cell.addEventListener("click", function () {
+            if (disponibilidade[chave]) {
+              // Remover disponibilidade
+              delete disponibilidade[chave];
+              cell.style.backgroundColor = "#f8f9fa";
+              cell.innerHTML =
+                '<i class="bi bi-plus-circle text-muted" style="font-size: 20px;"></i>';
+            } else {
+              // Adicionar disponibilidade
+              disponibilidade[chave] = true;
+              cell.style.backgroundColor = "#a0c4ff";
+              cell.innerHTML =
+                '<i class="bi bi-check-circle-fill text-white" style="font-size: 20px;"></i>';
+            }
+          });
+
+          // Hover effect
+          cell.addEventListener("mouseenter", function () {
+            if (!disponibilidade[chave]) {
+              cell.style.backgroundColor = "#e8edf5";
+            }
+          });
+
+          cell.addEventListener("mouseleave", function () {
+            if (!disponibilidade[chave]) {
+              cell.style.backgroundColor = "#f8f9fa";
+            }
+          });
+        });
+      });
+
+      // ============================================
+      // SALVAR TUTOR
+      // ============================================
+      document
+        .getElementById("formCadastroTutor")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const materiasSelecionadas = [];
+          document
+            .querySelectorAll('#materiasList input[type="checkbox"]:checked')
+            .forEach((cb) => {
+              materiasSelecionadas.push(cb.value);
+            });
+
+          if (materiasSelecionadas.length === 0) {
+            alert("Selecione pelo menos uma matéria!");
+            return;
+          }
+
+          const senha = document.getElementById("senha").value;
+          const confirmarSenha =
+            document.getElementById("confirmarSenha").value;
+
+          if (senha !== confirmarSenha) {
+            alert("As senhas não coincidem!");
+            return;
+          }
+
+          if (senha.length < 4) {
+            alert("A senha deve ter pelo menos 4 caracteres!");
+            return;
+          }
+
+          // Verificar se pelo menos um horário foi selecionado
+          if (Object.keys(disponibilidade).length === 0) {
+            alert("Selecione pelo menos um horário disponível na agenda!");
+            return;
+          }
+
+          const tutor = {
+            nome: document.getElementById("nome").value,
+            idade: parseInt(document.getElementById("idade").value),
+            matricula: document.getElementById("matricula").value,
+            bio: document.getElementById("bio").value,
+            papel: "tutor",
+            materias: materiasSelecionadas,
+            disponibilidade: disponibilidade,
+            escola: "Escola Padrão",
+            senha: senha,
+          };
+
+          // Verificar se matrícula já existe
+          if (getUsuarioByMatricula(tutor.matricula)) {
+            alert("Matrícula já cadastrada!");
+            return;
+          }
+
+          salvarUsuario(tutor);
+          alert("Tutor cadastrado com sucesso!");
+          window.location.href = "login.html";
+        });
+    </script>
+  </body>
+</html>
