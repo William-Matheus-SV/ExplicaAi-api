@@ -66,13 +66,34 @@ function getUsuarioByMatricula(matricula) {
 //=========================//
 //Matches//
 //=========================//
-
-// Salvar match
+// Salvar match - VERSÃO CORRIGIDA (NÃO SOBRESCREVE A MATÉRIA)
 function salvarMatch(match) {
   const matches = getMatches();
   match.id = Date.now().toString();
   match.data = new Date().toISOString();
   match.status = match.status || "pendente";
+  
+  // Buscar nomes do aluno e tutor (se não vieram)
+  if (!match.alunoNome) {
+    const aluno = getUsuarioByMatricula(match.alunoMatricula);
+    if (aluno) match.alunoNome = aluno.nome;
+  }
+  
+  if (!match.tutorNome) {
+    const tutor = getUsuarioByMatricula(match.tutorMatricula);
+    if (tutor) match.tutorNome = tutor.nome;
+  }
+  
+  // 🔥 SÓ CALCULA A MATÉRIA SE ELA NÃO FOI PASSADA 🔥
+  if (!match.materia) {
+    const aluno = getUsuarioByMatricula(match.alunoMatricula);
+    const tutor = getUsuarioByMatricula(match.tutorMatricula);
+    if (aluno && tutor) {
+      const materiaComum = aluno.materias?.find(m => tutor.materias?.includes(m));
+      match.materia = materiaComum || aluno.materias?.[0] || tutor.materias?.[0] || "Matéria geral";
+    }
+  }
+  
   matches.push(match);
   localStorage.setItem(STORAGE_KEYS.MATCHES, JSON.stringify(matches));
   return match;

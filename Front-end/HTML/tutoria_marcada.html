@@ -224,6 +224,7 @@
       const tutorMatricula = urlParams.get("tutor");
       const dia = urlParams.get("dia");
       const horario = urlParams.get("horario");
+      const materia = urlParams.get("materia"); // 🔥 PEGAR A MATÉRIA DA URL
 
       let aluno = getUsuarioByMatricula(alunoMatricula) || {
         nome: "Aluno",
@@ -244,33 +245,40 @@
       }
 
       document.getElementById("connectionSection").innerHTML = `
-            <div class="profile-container">
-                <div class="profile-icon">${getIniciais(aluno.nome)}</div>
-                <p class="profile-name">${aluno.nome}</p>
-                <p class="profile-role">Aluno</p>
-            </div>
-            <div class="connection-line-container">
-                <div class="dotted-line"></div>
-                <div class="center-dot"><i class="bi bi-heart-fill" style="font-size: 10px; color: white;"></i></div>
-                <div class="dotted-line"></div>
-            </div>
-            <div class="profile-container">
-                <div class="profile-icon">${getIniciais(tutor.nome)}</div>
-                <p class="profile-name">${tutor.nome}</p>
-                <p class="profile-role">Tutor</p>
-            </div>
-        `;
+    <div class="profile-container">
+        <div class="profile-icon">${getIniciais(aluno.nome)}</div>
+        <p class="profile-name">${aluno.nome}</p>
+        <p class="profile-role">Aluno</p>
+    </div>
+    <div class="connection-line-container">
+        <div class="dotted-line"></div>
+        <div class="center-dot"><i class="bi bi-heart-fill" style="font-size: 10px; color: white;"></i></div>
+        <div class="dotted-line"></div>
+    </div>
+    <div class="profile-container">
+        <div class="profile-icon">${getIniciais(tutor.nome)}</div>
+        <p class="profile-name">${tutor.nome}</p>
+        <p class="profile-role">Tutor</p>
+    </div>
+  `;
 
       if (dia && horario) {
         document.getElementById("timeDisplay").innerHTML = `
-                <i class="bi bi-calendar-check"></i>
-                <span>${dia} • ${horario}</span>
-            `;
+      <i class="bi bi-calendar-check"></i>
+      <span>${dia} • ${horario}</span>
+    `;
       }
 
-      if (aluno.materias && aluno.materias.length > 0) {
-        document.getElementById("materiaDisplay").innerHTML =
-          `<i class="bi bi-book"></i> Matéria: ${aluno.materias[0]}`;
+      // 🔥 CORREÇÃO: Mostrar a matéria que veio da URL
+      if (materia) {
+        document.getElementById("materiaDisplay").innerHTML = `
+      <i class="bi bi-book"></i> Matéria: ${materia}
+    `;
+      } else if (aluno.materias && aluno.materias.length > 0) {
+        // Fallback caso não venha na URL
+        document.getElementById("materiaDisplay").innerHTML = `
+      <i class="bi bi-book"></i> Matéria: ${aluno.materias[0]}
+    `;
       }
     </script>
   </body>
