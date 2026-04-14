@@ -50,6 +50,13 @@
         </div>
       </div>
 
+      <button
+        id="btnAgenda"
+        class="btn-agenda"
+        style="background: #10b981; margin-top: 10px"
+      >
+        <i class="bi bi-calendar-week"></i> Minha Agenda
+      </button>
       <button id="btnBuscar" class="btn-buscar">
         <i class="bi bi-search"></i> Buscar
       </button>
@@ -157,6 +164,10 @@
       document.getElementById("btnSair").onclick = () => {
         fazerLogout();
         window.location.href = "login.html";
+      };
+
+      document.getElementById("btnAgenda").onclick = () => {
+        window.location.href = "agenda.html";
       };
     </script>
   </body>
