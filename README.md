@@ -95,20 +95,13 @@ cd ExplicaAi-api
 
 4. **Faça login ou cadastre-se**
 
-##Fluxo Básico
-Login com uma das contas acima
+---
 
-Dashboard → veja seu perfil
+## 📌 Fluxo Básico
 
-Buscar → encontre tutores ou alunos por matéria
+🔐 LOGIN → 👤 PERFIL → 🔍 BUSCA → 🤝 MATCH → 📅 AGENDA → ⭐ AVALIAÇÃO
 
-Perfil → visualize horários disponíveis
-
-Match → selecione matéria e horário
-
-Agenda → veja seus compromissos
-
-Avaliação → avalie o tutor após o match
+---
 
 ## 📱 Responsividade
 O sistema é totalmente responsivo e funciona em:
@@ -118,6 +111,8 @@ O sistema é totalmente responsivo e funciona em:
 📟 Tablets (768px - 1024px)
 
 💻 Desktops (1024px+)
+
+---
 
 ## 🚀 Próximos Passos
 Editar Perfil
@@ -136,12 +131,16 @@ Back-end com Node.js + MongoDB
 
 Estrutura do Banco (MongoDB Schema) -> Ainda será implementada
 
+---
+
 ## 👨‍💻 Autor
 William Matheus
 Gabriel Almeida
 
 GitHub: @William-Matheus-SV
 GitHub: Gabriel Almeida
+
+---
 
 📄 Licença
 Este projeto está sob a licença MIT.
