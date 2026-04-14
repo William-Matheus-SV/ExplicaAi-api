@@ -161,7 +161,7 @@ Uma plataforma exclusiva para a escola que permite:
     Gabriel Almeida
 
     GitHub: @William-Matheus-SV
-    GitHub: Gabriel Almeida
+    GitHub: @GAlmeida-tech
 
 ---
 
