@@ -47,51 +47,64 @@ Uma plataforma exclusiva para a escola que permite:
 ---
 
 ## 📁 Estrutura do Projeto
-ExplicaAi-api/
-├── Front-end/
-│ ├── CSS/
-│ │ ├── busca.css
-│ │ ├── cadastro.css
-│ │ ├── cadastroAluno.css
-│ │ ├── cadastroTutor.css
-│ │ ├── dashboard.css
-│ │ ├── login.css
-│ │ └── perfil.css
-│ ├── HTML/
-│ │ ├── login.html
-│ │ ├── cadastro.html
-│ │ ├── cadastroAluno.html
-│ │ ├── cadastroTutor.html
-│ │ ├── dashboard.html
-│ │ ├── busca.html
-│ │ ├── perfil.html
-│ │ ├── tutoria_marcada.html
-│ │ └── agenda.html
-│ └── Javascript/
-│ ├── storage.js
-│ └── perfil.js
-├── index.html
-└── README.md
-
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           🗂️ ESTRUTURA DE PASTAS                            │
+│                                                                             │
+│   ExplicaAi-api/                                                            │
+│   │                                                                         │
+│   ├── 📁 Front-end/                                                         │
+│   │   ├── 📁 CSS/                                                           │
+│   │   │   ├── busca.css                                                     │
+│   │   │   ├── cadastro.css                                                  │
+│   │   │   ├── cadastroAluno.css                                             │
+│   │   │   ├── cadastroTutor.css                                             │
+│   │   │   ├── dashboard.css                                                 │
+│   │   │   ├── login.css                                                     │
+│   │   │   └── perfil.css                                                    │
+│   │   │                                                                     │
+│   │   ├── 📁 HTML/                                                          │
+│   │   │   ├── login.html                                                    │
+│   │   │   ├── cadastro.html                                                 │
+│   │   │   ├── cadastroAluno.html                                            │
+│   │   │   ├── cadastroTutor.html                                            │
+│   │   │   ├── dashboard.html                                                │
+│   │   │   ├── busca.html                                                    │
+│   │   │   ├── perfil.html                                                   │
+│   │   │   ├── tutoria_marcada.html                                          │
+│   │   │   └── agenda.html                                                   │
+│   │   │                                                                     │
+│   │   └── 📁 Javascript/                                                    │
+│   │       ├── storage.js                                                    │
+│   │       └── perfil.js                                                     │
+│   │                                                                         │
+│   ├── 📄 index.html                                                         │
+│   ├── 📄 README.md                                                          │
+│   └── 📄 .nojekyll                                                          │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+                              
 ---
 
 ## 🔧 Como Executar Localmente
 
 ### Pré-requisitos
-- Navegador moderno (Chrome, Edge, Firefox, Safari)
-- Git (opcional)
+    - Navegador moderno (Chrome, Edge, Firefox, Safari)
+    - Git (opcional)
 
 ### Passos
 
 1. **Clone o repositório**
-git clone https://github.com/William-Matheus-SV/ExplicaAi-api.git
+   
+        git clone https://github.com/William-Matheus-SV/ExplicaAi-api.git
 
 2. **Acesse a pasta**
-cd ExplicaAi-api
+   
+        cd ExplicaAi-api
 
 3. **Abra o arquivo index.html no navegador**
-    Clique duas vezes no arquivo
-    Ou use uma extensão como Live Server no VS Code
+
+        Clique duas vezes no arquivo
+        Ou use uma extensão como Live Server no VS Code
 
 4. **Faça login ou cadastre-se**
 
@@ -104,38 +117,48 @@ cd ExplicaAi-api
 ---
 
 ## 📱 Responsividade
-O sistema é totalmente responsivo e funciona em:
+    O sistema é totalmente responsivo e funciona em:
+    
+    📱 Smartphones (320px - 768px)
+    
+    📟 Tablets (768px - 1024px)
+    
+    💻 Desktops (1024px+)
 
-📱 Smartphones (320px - 768px)
+---
 
-📟 Tablets (768px - 1024px)
+### 🏗️ Arquitetura
 
-💻 Desktops (1024px+)
+| Camada | Tecnologia | Status |
+|--------|------------|--------|
+| Front-end | HTML/CSS/JS + Bootstrap 5 | ✅ Concluído |
+| Back-end | Node.js + Express | ⏳ Em planejamento |
+| Banco de Dados | MongoDB | ⏳ Em planejamento |
 
 ---
 
 ## 🚀 Próximos Passos
-Editar Perfil
-
-Trocar Senha
-
-Notificações de Lembrete
-
-Filtro por Escola/Técnico/Faculdade
-
-Upload de Foto do Usuário
-
-Chat entre Aluno e Tutor
-
-Back-end com Node.js + MongoDB
-
-Estrutura do Banco (MongoDB Schema) -> Ainda será implementada
+    Editar Perfil
+    
+    Trocar Senha
+    
+    Notificações de Lembrete
+    
+    Filtro por Escola/Técnico/Faculdade
+    
+    Upload de Foto do Usuário
+    
+    Chat entre Aluno e Tutor
+    
+    Back-end com Node.js + MongoDB
+    
+    Estrutura do Banco (MongoDB Schema) -> Ainda será implementada
 
 ---
 
 ## 👨‍💻 Autor
-William Matheus
-Gabriel Almeida
+    William Matheus
+    Gabriel Almeida
 
 GitHub: @William-Matheus-SV
 GitHub: Gabriel Almeida
@@ -143,13 +166,13 @@ GitHub: Gabriel Almeida
 ---
 
 📄 Licença
-Este projeto está sob a licença MIT.
+
+    Este projeto está sob a licença MIT.
 
 🙏 Agradecimentos
-Bootstrap pela facilidade no desenvolvimento responsivo
 
-Bootstrap Icons pela biblioteca de ícones
-
-Comunidade open-source por inspiração e recursos
+    Bootstrap pela facilidade no desenvolvimento responsivo
+    Bootstrap Icons pela biblioteca de ícones
+    Comunidade open-source por inspiração e recursos
 
 ⭐ Se gostou do projeto, deixe uma estrela no GitHub! ⭐
