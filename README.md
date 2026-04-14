@@ -160,8 +160,8 @@ Uma plataforma exclusiva para a escola que permite:
     William Matheus
     Gabriel Almeida
 
-GitHub: @William-Matheus-SV
-GitHub: Gabriel Almeida
+    GitHub: @William-Matheus-SV
+    GitHub: Gabriel Almeida
 
 ---
 
