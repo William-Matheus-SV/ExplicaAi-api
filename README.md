@@ -90,14 +90,12 @@ git clone https://github.com/William-Matheus-SV/ExplicaAi-api.git
 cd ExplicaAi-api
 
 3. **Abra o arquivo index.html no navegador**
-
-Clique duas vezes no arquivo
-
-Ou use uma extensão como Live Server no VS Code
+    Clique duas vezes no arquivo
+    Ou use uma extensão como Live Server no VS Code
 
 4. **Faça login ou cadastre-se**
 
-Fluxo Básico
+##Fluxo Básico
 Login com uma das contas acima
 
 Dashboard → veja seu perfil
@@ -112,7 +110,7 @@ Agenda → veja seus compromissos
 
 Avaliação → avalie o tutor após o match
 
-Responsividade
+## 📱 Responsividade
 O sistema é totalmente responsivo e funciona em:
 
 📱 Smartphones (320px - 768px)
@@ -121,7 +119,7 @@ O sistema é totalmente responsivo e funciona em:
 
 💻 Desktops (1024px+)
 
-**Próximos Passos**
+## 🚀 Próximos Passos
 Editar Perfil
 
 Trocar Senha
@@ -138,8 +136,9 @@ Back-end com Node.js + MongoDB
 
 Estrutura do Banco (MongoDB Schema) -> Ainda será implementada
 
-Autor
+## 👨‍💻 Autor
 William Matheus
+Gabriel Almeida
 
 GitHub: @William-Matheus-SV
 GitHub: Gabriel Almeida
