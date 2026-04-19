@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExplicaAí - Minha Agenda Semanal</title>
+    <title>ExplicaAí - Minha Agenda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
             padding: 40px 20px;
         }
         .agenda-container {
-            max-width: 1300px;
+            max-width: 800px;
             margin: 0 auto;
         }
         .agenda-card {
@@ -29,7 +29,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
             gap: 15px;
         }
@@ -37,15 +37,17 @@
             font-weight: 800;
             color: #1e293b;
             margin-bottom: 5px;
+            font-size: 1.5rem;
         }
         .agenda-title p {
             color: #64748b;
             margin: 0;
+            font-size: 0.85rem;
         }
         .btn-voltar {
             background: transparent;
             border: 2px solid #e2e8f0;
-            padding: 10px 24px;
+            padding: 8px 20px;
             border-radius: 50px;
             font-weight: 600;
             color: #64748b;
@@ -54,80 +56,118 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.85rem;
         }
         .btn-voltar:hover {
             border-color: #667eea;
             background: #f8fafc;
             color: #667eea;
         }
-        .agenda-tabela {
-            overflow-x: auto;
+
+        /* Navegação por dias */
+        .navegacao-dias {
+            background: #f1f5f9;
+            border-radius: 60px;
+            padding: 6px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 6px;
         }
-        .agenda-tabela table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 20px;
-            overflow: hidden;
+        .btn-dia {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 8px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
-        .agenda-tabela th {
+        .btn-dia:hover {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-dia.ativo {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 16px 12px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Cabeçalho do dia */
+        .dia-header {
             text-align: center;
-            font-weight: 600;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .dia-nome {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        .dia-data {
             font-size: 1rem;
+            color: #64748b;
+            margin-top: 4px;
         }
-        .agenda-tabela td {
-            border: 1px solid #e2e8f0;
-            padding: 12px 8px;
-            vertical-align: top;
-            background-color: white;
-            min-width: 140px;
-            height: 100px;
+
+        /* Seção de horário */
+        .horario-bloco {
+            margin-bottom: 24px;
         }
-        .horario-coluna {
-            background: #f8fafc;
-            font-weight: 600;
-            color: #475569;
-            text-align: center;
-            width: 120px;
-        }
-        .periodo-titulo {
-            background: #e2e8f0;
-            text-align: center;
+        .horario-titulo {
             font-weight: 700;
             color: #475569;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        .horario-titulo i {
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        /* Cards de match */
         .match-card {
-            background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+            background: linear-gradient(135deg, #667eea08 0%, #764ba208 100%);
             border-left: 4px solid #667eea;
-            border-radius: 10px;
-            padding: 8px;
-            margin-bottom: 6px;
-            font-size: 0.75rem;
-            cursor: pointer;
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
             transition: all 0.2s;
+            cursor: pointer;
         }
         .match-card:hover {
-            transform: translateX(3px);
-            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            transform: translateX(5px);
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
         }
         .match-materia {
             font-weight: 700;
             color: #667eea;
-            font-size: 0.8rem;
-            margin-bottom: 4px;
+            font-size: 1rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .match-nome {
             color: #475569;
-            font-size: 0.7rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            margin-bottom: 6px;
         }
         .match-status {
-            font-size: 0.6rem;
-            padding: 2px 6px;
+            font-size: 0.7rem;
+            padding: 4px 10px;
             border-radius: 20px;
             display: inline-block;
             margin-top: 4px;
@@ -140,21 +180,27 @@
             background: #d1fae5;
             color: #059669;
         }
+
+        /* Sem agendamento */
         .sem-match {
-            color: #cbd5e1;
-            font-size: 0.7rem;
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
             text-align: center;
-            margin-top: 20px;
-            display: block;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            border: 1px dashed #cbd5e1;
         }
+
+        /* Legenda */
         .legenda {
-            margin-top: 24px;
+            margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid #e2e8f0;
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         .legenda-item {
             display: flex;
@@ -162,21 +208,32 @@
             gap: 8px;
         }
         .legenda-cor {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border-radius: 4px;
         }
+
+        /* Loading */
         .loading {
             text-align: center;
             padding: 40px;
             color: #64748b;
         }
-        @media (max-width: 768px) {
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            body { padding: 20px 12px; }
             .agenda-card { padding: 20px; }
-            .agenda-tabela th, .agenda-tabela td { padding: 8px 4px; font-size: 0.7rem; }
-            .match-card { padding: 4px; }
-            .match-materia { font-size: 0.7rem; }
-            .horario-coluna { width: 80px; font-size: 0.7rem; }
+            .agenda-title h2 { font-size: 1.2rem; }
+            .btn-voltar { padding: 6px 14px; font-size: 0.75rem; }
+            .navegacao-dias { border-radius: 40px; gap: 4px; }
+            .btn-dia { padding: 8px 4px; font-size: 0.7rem; }
+            .dia-nome { font-size: 1.3rem; }
+            .dia-data { font-size: 0.8rem; }
+            .horario-titulo { font-size: 0.9rem; }
+            .match-materia { font-size: 0.9rem; }
+            .match-nome { font-size: 0.75rem; }
+            .legenda { gap: 12px; font-size: 0.65rem; }
         }
     </style>
 </head>
@@ -185,23 +242,34 @@
         <div class="agenda-card">
             <div class="agenda-header">
                 <div class="agenda-title">
-                    <h2><i class="bi bi-calendar-week"></i> Minha Agenda Semanal</h2>
+                    <h2><i class="bi bi-calendar-check"></i> Minha Agenda</h2>
                     <p><i class="bi bi-person-circle"></i> <span id="usuarioNome">Carregando...</span> • <span id="usuarioPapel">...</span></p>
                 </div>
                 <button class="btn-voltar" onclick="window.location.href='dashboard.html'">
-                    <i class="bi bi-arrow-left"></i> Voltar ao Dashboard
+                    <i class="bi bi-arrow-left"></i> Voltar
                 </button>
             </div>
 
-            <div class="agenda-tabela" id="agendaTabela">
-                <div class="loading"><i class="bi bi-hourglass-split"></i> Carregando sua agenda...</div>
+            <!-- Navegação por dias da semana -->
+            <div class="navegacao-dias">
+                <button class="btn-dia" data-dia="Segunda-feira">SEG</button>
+                <button class="btn-dia" data-dia="Terça-feira">TER</button>
+                <button class="btn-dia" data-dia="Quarta-feira">QUA</button>
+                <button class="btn-dia" data-dia="Quinta-feira">QUI</button>
+                <button class="btn-dia" data-dia="Sexta-feira">SEX</button>
             </div>
 
+            <!-- Conteúdo do dia -->
+            <div id="conteudoDia">
+                <div class="loading"><i class="bi bi-hourglass-split"></i> Carregando...</div>
+            </div>
+
+            <!-- Legenda -->
             <div class="legenda">
                 <div class="legenda-item"><div class="legenda-cor" style="background: #667eea;"></div> <span>Matéria do Match</span></div>
                 <div class="legenda-item"><div class="legenda-cor" style="background: #fef3c7; border: 1px solid #d97706;"></div> <span>Pendente</span></div>
                 <div class="legenda-item"><div class="legenda-cor" style="background: #d1fae5; border: 1px solid #059669;"></div> <span>Confirmado</span></div>
-                <div class="legenda-item"><i class="bi bi-clock"></i> <span>Manhã: 08-10 • 09-11 • 10-12 | Tarde: 14-16 • 15-17</span></div>
+                <div class="legenda-item"><i class="bi bi-clock"></i> <span>08-10 • 09-11 • 10-12 • 14-16 • 15-17</span></div>
             </div>
         </div>
     </div>
@@ -213,26 +281,26 @@
             window.location.href = 'login.html';
         }
 
-        //  DIAS da semana (Segunda a Sexta) 08/04
+        // Dias da semana em português
         const DIAS_SEMANA = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira'];
         
-        //  HORÁRIOS atualizados 08/04
+        // Horários
         const HORARIOS = [
             '08:00 - 10:00',
             '09:00 - 11:00', 
             '10:00 - 12:00',
             '14:00 - 16:00',
-            '15:00 - 17:00'
+            '15:00 - 17:00',
+            '16:00 - 18:00'
         ];
 
-        let allMatches = getMatches();
-        
-        let meusMatches = allMatches.filter(match => 
-            match.alunoMatricula === usuarioLogado.matricula || 
-            match.tutorMatricula === usuarioLogado.matricula
-        );
+        let allMatches = [];
+        let usuarios = [];
 
-        const usuarios = getUsuarios();
+        function carregarDados() {
+            allMatches = getMatches();
+            usuarios = getUsuarios();
+        }
 
         function getUsuarioByMatriculaCustom(matricula) {
             return usuarios.find(u => u.matricula === matricula);
@@ -250,42 +318,11 @@
             return materiaComum || aluno.materias?.[0] || tutor.materias?.[0] || 'Matéria geral';
         }
 
-        function getNomeOutraPessoa(match, usuarioLogadoMatricula) {
-            const outraMatricula = match.alunoMatricula === usuarioLogadoMatricula ? match.tutorMatricula : match.alunoMatricula;
+        function getNomeOutraPessoa(match) {
+            const outraMatricula = match.alunoMatricula === usuarioLogado.matricula ? match.tutorMatricula : match.alunoMatricula;
             const outraPessoa = getUsuarioByMatriculaCustom(outraMatricula);
-            return outraPessoa ? outraPessoa.nome : 'Usuário';
-        }
-
-        function organizarMatches() {
-            const agenda = {};
-            
-            DIAS_SEMANA.forEach(dia => {
-                agenda[dia] = {};
-                HORARIOS.forEach(horario => {
-                    agenda[dia][horario] = [];
-                });
-            });
-            
-            meusMatches.forEach(match => {
-                if (match.dia && match.horario) {
-                    const diaNormalizado = match.dia.charAt(0).toUpperCase() + match.dia.slice(1).toLowerCase();
-                    
-                    let horarioEncontrado = null;
-                    for (const horarioPossivel of HORARIOS) {
-                        if (match.horario === horarioPossivel || 
-                            match.horario.replace(/\s/g, '') === horarioPossivel.replace(/\s/g, '')) {
-                            horarioEncontrado = horarioPossivel;
-                            break;
-                        }
-                    }
-                    
-                    if (agenda[diaNormalizado] && horarioEncontrado && agenda[diaNormalizado][horarioEncontrado]) {
-                        agenda[diaNormalizado][horarioEncontrado].push(match);
-                    }
-                }
-            });
-            
-            return agenda;
+            const papelOutra = match.alunoMatricula === usuarioLogado.matricula ? 'Aluno' : 'Tutor';
+            return { nome: outraPessoa ? outraPessoa.nome : 'Usuário', papel: papelOutra };
         }
 
         function getStatusBadge(status) {
@@ -297,108 +334,159 @@
             return '';
         }
 
-        function renderizarAgenda() {
-            const agenda = organizarMatches();
-            const container = document.getElementById('agendaTabela');
+        // Obter a data atual formatada para um dia específico
+        function getDataParaDia(diaSemana) {
+            const hoje = new Date();
+            const diasDaSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+            const diaAtualIndex = diasDaSemana.indexOf(diaSemana);
             
-            document.getElementById('usuarioNome').innerText = usuarioLogado.nome;
-            document.getElementById('usuarioPapel').innerText = usuarioLogado.papel === 'aluno' ? 'Aluno' : 'Tutor';
+            if (diaAtualIndex === -1) return '';
             
-            let html = '<table class="table table-bordered">';
-            html += '<thead><tr><th><i class="bi bi-clock"></i> Horário</th>';
-            DIAS_SEMANA.forEach(dia => {
-                html += `<th><i class="bi bi-calendar-day"></i> ${dia}</th>`;
+            const hojeIndex = hoje.getDay();
+            let diferenca = diaAtualIndex - hojeIndex;
+            
+            const dataAlvo = new Date(hoje);
+            dataAlvo.setDate(hoje.getDate() + diferenca);
+            
+            return dataAlvo.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        // Filtrar matches do dia selecionado
+        function getMatchesDoDia(dia) {
+            return allMatches.filter(match => {
+                const matchDia = match.dia?.charAt(0).toUpperCase() + match.dia?.slice(1).toLowerCase();
+                return (match.alunoMatricula === usuarioLogado.matricula || match.tutorMatricula === usuarioLogado.matricula) &&
+                       matchDia === dia;
             });
-            html += '<tr></thead><tbody>';
+        }
+
+        // Organizar matches por horário
+        function organizarMatchesPorHorario(matches) {
+            const organizado = {};
+            HORARIOS.forEach(horario => {
+                organizado[horario] = [];
+            });
             
-            // Manhã 08/04
-            html += `<tr class="periodo-titulo"><td colspan="6"><i class="bi bi-sun"></i> Manhã</td></tr>`;
-            
-            HORARIOS.slice(0, 3).forEach(horario => {
-                html += `<tr>`;
-                html += `<td class="horario-coluna"><i class="bi bi-clock"></i> ${horario}</td>`;
-                
-                DIAS_SEMANA.forEach(dia => {
-                    const matchesNoHorario = agenda[dia][horario];
-                    
-                    if (matchesNoHorario.length > 0) {
-                        html += `<td>`;
-                        matchesNoHorario.forEach(match => {
-                            const materia = getMateriaDoMatch(match);
-                            const outraPessoa = getNomeOutraPessoa(match, usuarioLogado.matricula);
-                            const papelOutra = match.alunoMatricula === usuarioLogado.matricula ? 'Tutor' : 'Aluno';
-                            
-                            html += `
-                                <div class="match-card" onclick="verDetalhesMatch('${match.id}')">
-                                    <div class="match-materia"><i class="bi bi-book"></i> ${materia}</div>
-                                    <div class="match-nome">
-                                        <i class="bi bi-person"></i> ${outraPessoa} (${papelOutra})
-                                    </div>
-                                    ${getStatusBadge(match.status)}
-                                </div>
-                            `;
-                        });
-                        html += `</td>`;
-                    } else {
-                        html += `<td><div class="sem-match"><i class="bi bi-calendar-x"></i><br>Sem agendamento</div></td>`;
+            matches.forEach(match => {
+                if (match.horario) {
+                    let horarioEncontrado = null;
+                    for (const horarioPossivel of HORARIOS) {
+                        if (match.horario === horarioPossivel || 
+                            match.horario.replace(/\s/g, '') === horarioPossivel.replace(/\s/g, '')) {
+                            horarioEncontrado = horarioPossivel;
+                            break;
+                        }
                     }
-                });
-                
-                html += `</tr>`;
-            });
-            
-            // Tarde 08/04
-            html += `<tr class="periodo-titulo"><td colspan="6"><i class="bi bi-moon-stars"></i> Tarde</td></tr>`;
-            
-            HORARIOS.slice(3).forEach(horario => {
-                html += `<tr>`;
-                html += `<td class="horario-coluna"><i class="bi bi-clock"></i> ${horario}</td>`;
-                
-                DIAS_SEMANA.forEach(dia => {
-                    const matchesNoHorario = agenda[dia][horario];
-                    
-                    if (matchesNoHorario.length > 0) {
-                        html += `<td>`;
-                        matchesNoHorario.forEach(match => {
-                            const materia = getMateriaDoMatch(match);
-                            const outraPessoa = getNomeOutraPessoa(match, usuarioLogado.matricula);
-                            const papelOutra = match.alunoMatricula === usuarioLogado.matricula ? 'Tutor' : 'Aluno';
-                            
-                            html += `
-                                <div class="match-card" onclick="verDetalhesMatch('${match.id}')">
-                                    <div class="match-materia"><i class="bi bi-book"></i> ${materia}</div>
-                                    <div class="match-nome">
-                                        <i class="bi bi-person"></i> ${outraPessoa} (${papelOutra})
-                                    </div>
-                                    ${getStatusBadge(match.status)}
-                                </div>
-                            `;
-                        });
-                        html += `</td>`;
-                    } else {
-                        html += `<td><div class="sem-match"><i class="bi bi-calendar-x"></i><br>Sem agendamento</div></td>`;
+                    if (horarioEncontrado) {
+                        organizado[horarioEncontrado].push(match);
                     }
-                });
-                
-                html += `</tr>`;
+                }
             });
             
-            html += '</tbody></table>';
+            return organizado;
+        }
+
+        function verDetalhesMatch(match) {
+            const materia = getMateriaDoMatch(match);
+            const { nome, papel } = getNomeOutraPessoa(match);
+            alert(`📚 ${materia}\n👤 ${nome} (${papel})\n📅 ${match.dia}\n⏰ ${match.horario}\n📌 Status: ${match.status}`);
+        }
+
+        function renderizarDia(diaSelecionado) {
+            const container = document.getElementById('conteudoDia');
+            const matchesDoDia = getMatchesDoDia(diaSelecionado);
+            const matchesPorHorario = organizarMatchesPorHorario(matchesDoDia);
+            
+            const dataFormatada = getDataParaDia(diaSelecionado);
+            
+            let html = `
+                <div class="dia-header">
+                    <div class="dia-nome">${diaSelecionado}</div>
+                    <div class="dia-data">${dataFormatada}</div>
+                </div>
+            `;
+            
+            for (const horario of HORARIOS) {
+                const matches = matchesPorHorario[horario];
+                const periodo = horario.includes('08') || horario.includes('09') || horario.includes('10') ? '🌅' : '🌙';
+                
+                html += `
+                    <div class="horario-bloco">
+                        <div class="horario-titulo">
+                            <i class="bi bi-clock"></i> ${horario}
+                        </div>
+                `;
+                
+                if (matches.length === 0) {
+                    html += `
+                        <div class="sem-match">
+                            <i class="bi bi-calendar-x"></i> Nenhum agendamento neste horário
+                        </div>
+                    `;
+                } else {
+                    matches.forEach(match => {
+                        const materia = getMateriaDoMatch(match);
+                        const { nome, papel } = getNomeOutraPessoa(match);
+                        
+                        html += `
+                            <div class="match-card" onclick="verDetalhesMatch(${JSON.stringify(match).replace(/"/g, '&quot;')})">
+                                <div class="match-materia">
+                                    <i class="bi bi-book"></i> ${materia}
+                                </div>
+                                <div class="match-nome">
+                                    <i class="bi bi-person"></i> ${nome} (${papel})
+                                </div>
+                                ${getStatusBadge(match.status)}
+                            </div>
+                        `;
+                    });
+                }
+                
+                html += `</div>`;
+            }
+            
             container.innerHTML = html;
         }
 
-        function verDetalhesMatch(matchId) {
-            const match = meusMatches.find(m => m.id === matchId);
-            if (match) {
-                const materia = getMateriaDoMatch(match);
-                const outraPessoa = getNomeOutraPessoa(match, usuarioLogado.matricula);
-                const papelOutra = match.alunoMatricula === usuarioLogado.matricula ? 'Tutor' : 'Aluno';
-                alert(`📚 ${materia}\n👤 ${outraPessoa} (${papelOutra})\n📅 ${match.dia}\n⏰ ${match.horario}\n📌 Status: ${match.status}`);
-            }
+        // Configurar navegação
+        function configurarNavegacao() {
+            const botoes = document.querySelectorAll('.btn-dia');
+            let diaAtual = null;
+            
+            // Descobrir qual dia é hoje para marcar como ativo inicialmente
+            const hoje = new Date();
+            const diasDaSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+            const diaHoje = diasDaSemana[hoje.getDay()];
+            
+            botoes.forEach(btn => {
+                const dia = btn.getAttribute('data-dia');
+                if (dia === diaHoje) {
+                    btn.classList.add('ativo');
+                    diaAtual = dia;
+                    renderizarDia(diaAtual);
+                }
+                
+                btn.addEventListener('click', () => {
+                    botoes.forEach(b => b.classList.remove('ativo'));
+                    btn.classList.add('ativo');
+                    diaAtual = btn.getAttribute('data-dia');
+                    renderizarDia(diaAtual);
+                });
+            });
         }
 
+        // Inicializar
+        function init() {
+            document.getElementById('usuarioNome').innerText = usuarioLogado.nome;
+            document.getElementById('usuarioPapel').innerText = usuarioLogado.papel === 'aluno' ? 'Aluno' : 'Tutor';
+            carregarDados();
+            configurarNavegacao();
+        }
+
+        // Tornar função global para o onclick
         window.verDetalhesMatch = verDetalhesMatch;
-        renderizarAgenda();
+        
+        init();
     </script>
 </body>
 </html>
