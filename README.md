@@ -47,42 +47,33 @@ Uma plataforma exclusiva para a escola que permite:
 ---
 
 ## 📁 Estrutura do Projeto
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           🗂️ ESTRUTURA DE PASTAS                            │
-│                                                                             │
-│   ExplicaAi-api/                                                            │
-│   │                                                                         │
-│   ├── 📁 Front-end/                                                         │
-│   │   ├── 📁 CSS/                                                           │
-│   │   │   ├── busca.css                                                     │
-│   │   │   ├── cadastro.css                                                  │
-│   │   │   ├── cadastroAluno.css                                             │
-│   │   │   ├── cadastroTutor.css                                             │
-│   │   │   ├── dashboard.css                                                 │
-│   │   │   ├── login.css                                                     │
-│   │   │   └── perfil.css                                                    │
-│   │   │                                                                     │
-│   │   ├── 📁 HTML/                                                          │
-│   │   │   ├── login.html                                                    │
-│   │   │   ├── cadastro.html                                                 │
-│   │   │   ├── cadastroAluno.html                                            │
-│   │   │   ├── cadastroTutor.html                                            │
-│   │   │   ├── dashboard.html                                                │
-│   │   │   ├── busca.html                                                    │
-│   │   │   ├── perfil.html                                                   │
-│   │   │   ├── tutoria_marcada.html                                          │
-│   │   │   └── agenda.html                                                   │
-│   │   │                                                                     │
-│   │   └── 📁 Javascript/                                                    │
-│   │       ├── storage.js                                                    │
-│   │       └── perfil.js                                                     │
-│   │                                                                         │
-│   ├── 📄 index.html                                                         │
-│   ├── 📄 README.md                                                          │
-│   └── 📄 .nojekyll                                                          │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-                              
+
+    ExplicaAi-api/
+    └── Front-end/
+        ├── CSS/
+        │   ├── busca.css
+        │   ├── cadastro.css
+        │   ├── cadastroAluno.css
+        │   ├── cadastroTutor.css
+        │   ├── dashboard.css
+        │   ├── login.css
+        │   └── perfil.css
+        ├── HTML/
+        │   ├── login.html
+        │   ├── cadastro.html
+        │   ├── cadastroAluno.html
+        │   ├── cadastroTutor.html
+        │   ├── dashboard.html
+        │   ├── busca.html
+        │   ├── perfil.html
+        │   ├── tutoria_marcada.html
+        │   └── agenda.html
+        ├── Javascript/
+        │   ├── storage.js
+        │   └── perfil.js
+        ├── index.html
+        ├── README.md
+        └── .nojekyll                              
 ---
 
 ## 🔧 Como Executar Localmente
