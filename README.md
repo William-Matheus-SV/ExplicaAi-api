@@ -108,6 +108,10 @@ Uma plataforma exclusiva para a escola que permite:
 
 4. **Faça login ou cadastre-se**
 
+🔐 Credenciais para testar:
+Perfil	     Matrícula	 Senha
+Aluno Demo	 aluno_demo	 123456
+Tutor Demo	 tutor_demo	 123456
 ---
 
 ## 📌 Fluxo Básico
