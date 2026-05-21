@@ -106,12 +106,17 @@ Uma plataforma exclusiva para a escola que permite:
         Clique duas vezes no arquivo
         Ou use uma extensão como Live Server no VS Code
 
-4. **Faça login ou cadastre-se**
+## 4. Faça login ou cadastre-se
 
-🔐 Credenciais para testar:
-Perfis:	Aluno Demo | Tutor Demo
-Matrículas: aluno_demo | tutor_demo
-Senhas: 123456 | 123456
+🔐 **Credenciais para testes:**
+
+* **Perfil Aluno:**
+  * **Matrícula:** `aluno_demo`
+  * **Senha:** `123456`
+
+* **Perfil Tutor:**
+  * **Matrícula:** `tutor_demo`
+  * **Senha:** `123456`
 ---
 
 ## 📌 Fluxo Básico
