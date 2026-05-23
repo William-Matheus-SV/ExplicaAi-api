@@ -1,435 +1,292 @@
-<!DOCTYPE html> 
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ExplicaAí - Minha Agenda</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-        .agenda-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .agenda-card {
-            background: white;
-            border-radius: 32px;
-            padding: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .agenda-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .agenda-title h2 {
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 5px;
-            font-size: 1.5rem;
-        }
-        .agenda-title p {
-            color: #64748b;
-            margin: 0;
-            font-size: 0.85rem;
-        }
-        .btn-voltar {
-            background: transparent;
-            border: 2px solid #e2e8f0;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            color: #64748b;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-        }
-        .btn-voltar:hover {
-            border-color: #667eea;
-            background: #f8fafc;
-            color: #667eea;
-        }
-
-        /* Navegação por dias */
-        .navegacao-dias {
-            background: #f1f5f9;
-            border-radius: 60px;
-            padding: 6px;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            gap: 6px;
-        }
-        .btn-dia {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 12px 8px;
-            border-radius: 50px;
-            font-weight: 600;
-            color: #64748b;
-            transition: all 0.3s;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        .btn-dia:hover {
-            background: #e2e8f0;
-            color: #475569;
-        }
-        .btn-dia.ativo {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        /* Cabeçalho do dia */
-        .dia-header {
-            text-align: center;
-            margin-bottom: 28px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        .dia-nome {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #1e293b;
-        }
-        .dia-data {
-            font-size: 1rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-
-        /* Seção de horário */
-        .horario-bloco {
-            margin-bottom: 24px;
-        }
-        .horario-titulo {
-            font-weight: 700;
-            color: #475569;
-            font-size: 1rem;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .horario-titulo i {
-            color: #667eea;
-            font-size: 1.2rem;
-        }
-
-        /* Cards de match */
-        .match-card {
-            background: linear-gradient(135deg, #667eea08 0%, #764ba208 100%);
-            border-left: 4px solid #667eea;
-            border-radius: 16px;
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .match-card:hover {
-            transform: translateX(5px);
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-        }
-        .match-materia {
-            font-weight: 700;
-            color: #667eea;
-            font-size: 1rem;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .match-nome {
-            color: #475569;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 6px;
-        }
-        .match-status {
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 4px;
-        }
-        .status-pendente {
-            background: #fef3c7;
-            color: #d97706;
-        }
-        .status-confirmado {
-            background: #d1fae5;
-            color: #059669;
-        }
-
-        /* Sem agendamento */
-        .sem-match {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            color: #94a3b8;
-            font-size: 0.85rem;
-            border: 1px dashed #cbd5e1;
-        }
-
-        /* Legenda */
-        .legenda {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            font-size: 0.75rem;
-        }
-        .legenda-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .legenda-cor {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-        }
-
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #64748b;
-        }
-
-        /* Responsividade */
-        @media (max-width: 600px) {
-            body { padding: 20px 12px; }
-            .agenda-card { padding: 20px; }
-            .agenda-title h2 { font-size: 1.2rem; }
-            .btn-voltar { padding: 6px 14px; font-size: 0.75rem; }
-            .navegacao-dias { border-radius: 40px; gap: 4px; }
-            .btn-dia { padding: 8px 4px; font-size: 0.7rem; }
-            .dia-nome { font-size: 1.3rem; }
-            .dia-data { font-size: 0.8rem; }
-            .horario-titulo { font-size: 0.9rem; }
-            .match-materia { font-size: 0.9rem; }
-            .match-nome { font-size: 0.75rem; }
-            .legenda { gap: 12px; font-size: 0.65rem; }
-        }
-    </style>
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../CSS/agenda.css" />
+  </head>
+  <body>
     <div class="agenda-container">
-        <div class="agenda-card">
-            <div class="agenda-header">
-                <div class="agenda-title">
-                    <h2><i class="bi bi-calendar-check"></i> Minha Agenda</h2>
-                    <p><i class="bi bi-person-circle"></i> <span id="usuarioNome">Carregando...</span> • <span id="usuarioPapel">...</span></p>
-                </div>
-                <button class="btn-voltar" onclick="window.location.href='../dashboard.html'">
-                    <i class="bi bi-arrow-left"></i> Voltar
-                </button>
-            </div>
-
-            <!-- Navegação por dias da semana -->
-            <div class="navegacao-dias">
-                <button class="btn-dia" data-dia="Segunda-feira">SEG</button>
-                <button class="btn-dia" data-dia="Terça-feira">TER</button>
-                <button class="btn-dia" data-dia="Quarta-feira">QUA</button>
-                <button class="btn-dia" data-dia="Quinta-feira">QUI</button>
-                <button class="btn-dia" data-dia="Sexta-feira">SEX</button>
-            </div>
-
-            <!-- Conteúdo do dia -->
-            <div id="conteudoDia">
-                <div class="loading"><i class="bi bi-hourglass-split"></i> Carregando...</div>
-            </div>
-
-            <!-- Legenda -->
-            <div class="legenda">
-                <div class="legenda-item"><div class="legenda-cor" style="background: #667eea;"></div> <span>Matéria do Match</span></div>
-                <div class="legenda-item"><div class="legenda-cor" style="background: #fef3c7; border: 1px solid #d97706;"></div> <span>Pendente</span></div>
-                <div class="legenda-item"><div class="legenda-cor" style="background: #d1fae5; border: 1px solid #059669;"></div> <span>Confirmado</span></div>
-                <div class="legenda-item"><i class="bi bi-clock"></i> <span>08-10 • 09-11 • 10-12 • 14-16 • 15-17</span></div>
-            </div>
+      <div class="agenda-card">
+        <div class="agenda-header">
+          <div class="agenda-title">
+            <h2><i class="bi bi-calendar-check"></i> Minha Agenda</h2>
+            <p>
+              <i class="bi bi-person-circle"></i>
+              <span id="usuarioNome">Carregando...</span> •
+              <span id="usuarioPapel">...</span>
+            </p>
+          </div>
+          <button
+            class="btn-voltar"
+            onclick="window.location.href='../dashboard.html'"
+          >
+            <i class="bi bi-arrow-left"></i> Voltar
+          </button>
         </div>
+
+        <!-- Navegação por dias da semana -->
+        <div class="navegacao-dias">
+          <button class="btn-dia" data-dia="Segunda-feira">SEG</button>
+          <button class="btn-dia" data-dia="Terça-feira">TER</button>
+          <button class="btn-dia" data-dia="Quarta-feira">QUA</button>
+          <button class="btn-dia" data-dia="Quinta-feira">QUI</button>
+          <button class="btn-dia" data-dia="Sexta-feira">SEX</button>
+        </div>
+
+        <!-- Conteúdo do dia -->
+        <div id="conteudoDia">
+          <div class="loading">
+            <i class="bi bi-hourglass-split"></i> Carregando...
+          </div>
+        </div>
+
+        <!-- Legenda -->
+        <div class="legenda">
+          <div class="legenda-item">
+            <div class="legenda-cor" style="background: #667eea"></div>
+            <span>Matéria do Match</span>
+          </div>
+          <div class="legenda-item">
+            <div
+              class="legenda-cor"
+              style="background: #fef3c7; border: 1px solid #d97706"
+            ></div>
+            <span>Pendente</span>
+          </div>
+          <div class="legenda-item">
+            <div
+              class="legenda-cor"
+              style="background: #d1fae5; border: 1px solid #059669"
+            ></div>
+            <span>Confirmado</span>
+          </div>
+          <div class="legenda-item">
+            <i class="bi bi-clock"></i>
+            <span>08-10 • 09-11 • 10-12 • 14-16 • 15-17</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="../../Javascript/storage.js"></script>
     <script>
-        const usuarioLogado = getUsuarioLogado();
-        if (!usuarioLogado) {
-            window.location.href = '../login.html';
-        }
+      const usuarioLogado = getUsuarioLogado();
+      if (!usuarioLogado) {
+        window.location.href = "../login.html";
+      }
 
-        // Dias da semana em português
-        const DIAS_SEMANA = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira'];
-        
-        // Horários
-        const HORARIOS = [
-            '08:00 - 10:00',
-            '09:00 - 11:00', 
-            '10:00 - 12:00',
-            '14:00 - 16:00',
-            '15:00 - 17:00',
-            '16:00 - 18:00'
+      // Dias da semana em português
+      const DIAS_SEMANA = [
+        "Segunda-feira",
+        "Terça-feira",
+        "Quarta-feira",
+        "Quinta-feira",
+        "Sexta-feira",
+      ];
+
+      // Horários
+      const HORARIOS = [
+        "08:00 - 10:00",
+        "09:00 - 11:00",
+        "10:00 - 12:00",
+        "14:00 - 16:00",
+        "15:00 - 17:00",
+        "16:00 - 18:00",
+      ];
+
+      let allMatches = [];
+      let usuarios = [];
+
+      function carregarDados() {
+        allMatches = getMatches() || [];
+        usuarios = getUsuarios() || [];
+      }
+
+      function getUsuarioByMatriculaCustom(matricula) {
+        return usuarios.find((u) => u.matricula === matricula);
+      }
+
+      function getMateriaDoMatch(match) {
+        if (match.materia) return match.materia;
+
+        const aluno = getUsuarioByMatriculaCustom(match.alunoMatricula);
+        const tutor = getUsuarioByMatriculaCustom(match.tutorMatricula);
+
+        if (!aluno || !tutor) return "Matéria não definida";
+
+        const materiaComum = aluno.materias?.find((m) =>
+          tutor.materias?.includes(m),
+        );
+        return (
+          materiaComum ||
+          aluno.materias?.[0] ||
+          tutor.materias?.[0] ||
+          "Matéria geral"
+        );
+      }
+
+      function getNomeOutraPessoa(match) {
+        const outraMatricula =
+          match.alunoMatricula === usuarioLogado.matricula
+            ? match.tutorMatricula
+            : match.alunoMatricula;
+        const outraPessoa = getUsuarioByMatriculaCustom(outraMatricula);
+        const papelOutra =
+          match.alunoMatricula === usuarioLogado.matricula ? "Aluno" : "Tutor";
+        return {
+          nome: outraPessoa ? outraPessoa.nome : "Usuário",
+          papel: papelOutra,
+        };
+      }
+
+      function getStatusBadge(status) {
+        if (status === "pendente") {
+          return '<span class="match-status status-pendente"><i class="bi bi-clock-history"></i> Pendente</span>';
+        } else if (status === "confirmado") {
+          return '<span class="match-status status-confirmado"><i class="bi bi-check-circle"></i> Confirmado</span>';
+        }
+        return "";
+      }
+
+      // Obter a data atual formatada para um dia específico
+      function getDataParaDia(diaSemana) {
+        const hoje = new Date();
+        const diasDaSemana = [
+          "Domingo",
+          "Segunda-feira",
+          "Terça-feira",
+          "Quarta-feira",
+          "Quinta-feira",
+          "Sexta-feira",
+          "Sábado",
         ];
+        const diaAtualIndex = diasDaSemana.indexOf(diaSemana);
 
-        let allMatches = [];
-        let usuarios = [];
+        if (diaAtualIndex === -1) return "";
 
-        function carregarDados() {
-            allMatches = getMatches();
-            usuarios = getUsuarios();
-        }
+        const hojeIndex = hoje.getDay();
 
-        function getUsuarioByMatriculaCustom(matricula) {
-            return usuarios.find(u => u.matricula === matricula);
-        }
+        const diferenca = diaAtualIndex - hojeIndex;
 
-        function getMateriaDoMatch(match) {
-            if (match.materia) return match.materia;
-            
-            const aluno = getUsuarioByMatriculaCustom(match.alunoMatricula);
-            const tutor = getUsuarioByMatriculaCustom(match.tutorMatricula);
-            
-            if (!aluno || !tutor) return 'Matéria não definida';
-            
-            const materiaComum = aluno.materias?.find(m => tutor.materias?.includes(m));
-            return materiaComum || aluno.materias?.[0] || tutor.materias?.[0] || 'Matéria geral';
-        }
+        const dataAlvo = new Date(hoje);
 
-        function getNomeOutraPessoa(match) {
-            const outraMatricula = match.alunoMatricula === usuarioLogado.matricula ? match.tutorMatricula : match.alunoMatricula;
-            const outraPessoa = getUsuarioByMatriculaCustom(outraMatricula);
-            const papelOutra = match.alunoMatricula === usuarioLogado.matricula ? 'Aluno' : 'Tutor';
-            return { nome: outraPessoa ? outraPessoa.nome : 'Usuário', papel: papelOutra };
-        }
+        dataAlvo.setDate(hoje.getDate() + diferenca);
 
-        function getStatusBadge(status) {
-            if (status === 'pendente') {
-                return '<span class="match-status status-pendente"><i class="bi bi-clock-history"></i> Pendente</span>';
-            } else if (status === 'confirmado') {
-                return '<span class="match-status status-confirmado"><i class="bi bi-check-circle"></i> Confirmado</span>';
+        return dataAlvo.toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        });
+      }
+
+      // Filtrar matches do dia selecionado
+      function getMatchesDoDia(dia) {
+        return allMatches.filter((match) => {
+          const matchDia =
+            match.dia?.charAt(0).toUpperCase() +
+            match.dia?.slice(1).toLowerCase();
+          return (
+            (match.alunoMatricula === usuarioLogado.matricula ||
+              match.tutorMatricula === usuarioLogado.matricula) &&
+            matchDia === dia
+          );
+        });
+      }
+
+      // Organizar matches por horário
+      function organizarMatchesPorHorario(matches) {
+        const organizado = {};
+        HORARIOS.forEach((horario) => {
+          organizado[horario] = [];
+        });
+
+        matches.forEach((match) => {
+          if (match.horario) {
+            let horarioEncontrado = null;
+            for (const horarioPossivel of HORARIOS) {
+              if (
+                match.horario === horarioPossivel ||
+                match.horario.replace(/\s/g, "") ===
+                  horarioPossivel.replace(/\s/g, "")
+              ) {
+                horarioEncontrado = horarioPossivel;
+                break;
+              }
             }
-            return '';
-        }
+            if (horarioEncontrado) {
+              organizado[horarioEncontrado].push(match);
+            }
+          }
+        });
 
-        // Obter a data atual formatada para um dia específico
-        function getDataParaDia(diaSemana) {
-            const hoje = new Date();
-            const diasDaSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-            const diaAtualIndex = diasDaSemana.indexOf(diaSemana);
-            
-            if (diaAtualIndex === -1) return '';
-            
-            const hojeIndex = hoje.getDay();
-            let diferenca = diaAtualIndex - hojeIndex;
-            
-            const dataAlvo = new Date(hoje);
-            dataAlvo.setDate(hoje.getDate() + diferenca);
-            
-            return dataAlvo.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        }
+        return organizado;
+      }
 
-        // Filtrar matches do dia selecionado
-        function getMatchesDoDia(dia) {
-            return allMatches.filter(match => {
-                const matchDia = match.dia?.charAt(0).toUpperCase() + match.dia?.slice(1).toLowerCase();
-                return (match.alunoMatricula === usuarioLogado.matricula || match.tutorMatricula === usuarioLogado.matricula) &&
-                       matchDia === dia;
-            });
-        }
+      function verDetalhesMatch(match) {
+        const materia = getMateriaDoMatch(match);
+        const { nome, papel } = getNomeOutraPessoa(match);
+        alert(
+          `📚 ${materia}\n👤 ${nome} (${papel})\n📅 ${match.dia}\n⏰ ${match.horario}\n📌 Status: ${match.status}`,
+        );
+      }
 
-        // Organizar matches por horário
-        function organizarMatchesPorHorario(matches) {
-            const organizado = {};
-            HORARIOS.forEach(horario => {
-                organizado[horario] = [];
-            });
-            
-            matches.forEach(match => {
-                if (match.horario) {
-                    let horarioEncontrado = null;
-                    for (const horarioPossivel of HORARIOS) {
-                        if (match.horario === horarioPossivel || 
-                            match.horario.replace(/\s/g, '') === horarioPossivel.replace(/\s/g, '')) {
-                            horarioEncontrado = horarioPossivel;
-                            break;
-                        }
-                    }
-                    if (horarioEncontrado) {
-                        organizado[horarioEncontrado].push(match);
-                    }
-                }
-            });
-            
-            return organizado;
-        }
+      function renderizarDia(diaSelecionado) {
+        const container = document.getElementById("conteudoDia");
+        const matchesDoDia = getMatchesDoDia(diaSelecionado);
+        const matchesPorHorario = organizarMatchesPorHorario(matchesDoDia);
 
-        function verDetalhesMatch(match) {
-            const materia = getMateriaDoMatch(match);
-            const { nome, papel } = getNomeOutraPessoa(match);
-            alert(`📚 ${materia}\n👤 ${nome} (${papel})\n📅 ${match.dia}\n⏰ ${match.horario}\n📌 Status: ${match.status}`);
-        }
+        const dataFormatada = getDataParaDia(diaSelecionado);
 
-        function renderizarDia(diaSelecionado) {
-            const container = document.getElementById('conteudoDia');
-            const matchesDoDia = getMatchesDoDia(diaSelecionado);
-            const matchesPorHorario = organizarMatchesPorHorario(matchesDoDia);
-            
-            const dataFormatada = getDataParaDia(diaSelecionado);
-            
-            let html = `
+        let html = `
                 <div class="dia-header">
                     <div class="dia-nome">${diaSelecionado}</div>
                     <div class="dia-data">${dataFormatada}</div>
                 </div>
             `;
-            
-            for (const horario of HORARIOS) {
-                const matches = matchesPorHorario[horario];
-                const periodo = horario.includes('08') || horario.includes('09') || horario.includes('10') ? '🌅' : '🌙';
-                
-                html += `
+
+        for (const horario of HORARIOS) {
+          const matches = matchesPorHorario[horario];
+          const periodo =
+            horario.includes("08") ||
+            horario.includes("09") ||
+            horario.includes("10")
+              ? "🌅"
+              : "🌙";
+
+          html += `
                     <div class="horario-bloco">
                         <div class="horario-titulo">
                             <i class="bi bi-clock"></i> ${horario}
                         </div>
                 `;
-                
-                if (matches.length === 0) {
-                    html += `
+
+          if (matches.length === 0) {
+            html += `
                         <div class="sem-match">
                             <i class="bi bi-calendar-x"></i> Nenhum agendamento neste horário
                         </div>
                     `;
-                } else {
-                    matches.forEach(match => {
-                        const materia = getMateriaDoMatch(match);
-                        const { nome, papel } = getNomeOutraPessoa(match);
-                        
-                        html += `
-                            <div class="match-card" onclick="verDetalhesMatch(${JSON.stringify(match).replace(/"/g, '&quot;')})">
+          } else {
+            matches.forEach((match) => {
+              const materia = getMateriaDoMatch(match);
+              const { nome, papel } = getNomeOutraPessoa(match);
+
+              html += `
+                            <div class="match-card" onclick="verDetalhesMatch(${JSON.stringify(match).replace(/"/g, "&quot;")})">
                                 <div class="match-materia">
                                     <i class="bi bi-book"></i> ${materia}
                                 </div>
@@ -439,54 +296,87 @@
                                 ${getStatusBadge(match.status)}
                             </div>
                         `;
-                    });
-                }
-                
-                html += `</div>`;
-            }
-            
-            container.innerHTML = html;
-        }
-
-        // Configurar navegação
-        function configurarNavegacao() {
-            const botoes = document.querySelectorAll('.btn-dia');
-            let diaAtual = null;
-            
-            // Descobrir qual dia é hoje para marcar como ativo inicialmente
-            const hoje = new Date();
-            const diasDaSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-            const diaHoje = diasDaSemana[hoje.getDay()];
-            
-            botoes.forEach(btn => {
-                const dia = btn.getAttribute('data-dia');
-                if (dia === diaHoje) {
-                    btn.classList.add('ativo');
-                    diaAtual = dia;
-                    renderizarDia(diaAtual);
-                }
-                
-                btn.addEventListener('click', () => {
-                    botoes.forEach(b => b.classList.remove('ativo'));
-                    btn.classList.add('ativo');
-                    diaAtual = btn.getAttribute('data-dia');
-                    renderizarDia(diaAtual);
-                });
             });
+          }
+
+          html += `</div>`;
         }
 
-        // Inicializar
-        function init() {
-            document.getElementById('usuarioNome').innerText = usuarioLogado.nome;
-            document.getElementById('usuarioPapel').innerText = usuarioLogado.papel === 'aluno' ? 'Aluno' : 'Tutor';
-            carregarDados();
-            configurarNavegacao();
-        }
+        container.innerHTML = html;
+      }
 
-        // Tornar função global para o onclick
-        window.verDetalhesMatch = verDetalhesMatch;
-        
-        init();
+      // Configurar navegação
+      function configurarNavegacao() {
+        if (!verificarDiaUtil()) {
+          return;
+        }
+        const botoes = document.querySelectorAll(".btn-dia");
+        let diaAtual = null;
+
+        // Descobrir qual dia é hoje para marcar como ativo inicialmente
+        const hoje = new Date();
+        const diasDaSemana = [
+          "Domingo",
+          "Segunda-feira",
+          "Terça-feira",
+          "Quarta-feira",
+          "Quinta-feira",
+          "Sexta-feira",
+          "Sábado",
+        ];
+        const diaHoje = diasDaSemana[hoje.getDay()];
+
+        botoes.forEach((btn) => {
+          const dia = btn.getAttribute("data-dia");
+          if (dia === diaHoje) {
+            btn.classList.add("ativo");
+            diaAtual = dia;
+            renderizarDia(diaAtual);
+          }
+
+          btn.addEventListener("click", () => {
+            botoes.forEach((b) => b.classList.remove("ativo"));
+            btn.classList.add("ativo");
+            diaAtual = btn.getAttribute("data-dia");
+            renderizarDia(diaAtual);
+          });
+        });
+      }
+
+      function verificarDiaUtil() {
+        const hoje = new Date();
+        const diaSemana = hoje.getDay(); // 0 = Domingo, 6 = Sábado
+
+        if (diaSemana === 0 || diaSemana === 6) {
+          const container = document.getElementById("conteudoDia");
+          container.innerHTML = `
+      <div class="sem-match" style="text-align: center; padding: 40px; margin-top: 20px;">
+        <i class="bi bi-calendar-week" style="font-size: 48px; color: #667eea;"></i>
+        <h3 style="margin-top: 16px; color: #1e293b;">Fim de semana 🎉</h3>
+        <p style="color: #64748b; margin-top: 8px;">
+          Os agendamentos devem ser feitos de <strong>Segunda a Sexta-feira</strong>.<br>
+          Aproveite para descansar e se preparar para a próxima semana!
+        </p>
+      </div>
+    `;
+          return false; // não é dia útil
+        }
+        return true; // é dia útil
+      }
+
+      // Inicializar
+      function init() {
+        document.getElementById("usuarioNome").innerText = usuarioLogado.nome;
+        document.getElementById("usuarioPapel").innerText =
+          usuarioLogado.papel === "aluno" ? "Aluno" : "Tutor";
+        carregarDados();
+        configurarNavegacao();
+      }
+
+      // Tornar função global para o onclick
+      window.verDetalhesMatch = verDetalhesMatch;
+
+      init();
     </script>
-</body>
+  </body>
 </html>
